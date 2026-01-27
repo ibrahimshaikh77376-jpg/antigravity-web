@@ -1,0 +1,2491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="AI-Powered ID Card Management ERP Platform - Create, verify, manage, and distribute secure ID cards with AI automation, real-time dashboards, and secure payments.">
+    <meta name="keywords"
+        content="ID Card Management, ERP, AI-Powered, Student ID Cards, Employee ID Cards, Institutional Management">
+    <title>AI-ID Management | AI-Powered ID Card Management ERP Platform</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Telegram Login Widget -->
+    <script async src="https://telegram.org/js/telegram-widget.js?22"></script>
+
+    <!-- API Configuration -->
+    <script>
+        // API Base URL - Change this to your production API URL
+        const API_BASE_URL = window.location.origin.includes('localhost')
+            ? 'http://localhost:3000/api'
+            : '/api';
+    </script>
+
+    <!-- React & ReactDOM for Admin Panel -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind CSS for Admin Panel -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#10B981',
+                        dark: '#111827',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            /* Modern Color Palette */
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #10b981;
+            --secondary-dark: #059669;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+
+            /* Neutrals */
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --text-dark: #0f172a;
+            --text-medium: #475569;
+            --text-light: #94a3b8;
+            --border-color: #e2e8f0;
+
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+
+            /* Fonts */
+            --font-heading: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--text-dark);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+        }
+
+        h3 {
+            font-size: 1.875rem;
+        }
+
+        h4 {
+            font-size: 1.5rem;
+        }
+
+        h5 {
+            font-size: 1.25rem;
+        }
+
+        h6 {
+            font-size: 1rem;
+        }
+
+        p {
+            color: var(--text-medium);
+            line-height: 1.75;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .container-wide {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-dark);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-lg {
+            padding: 18px 36px;
+            font-size: 1.125rem;
+        }
+
+        /* Header / Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            font-family: var(--font-heading);
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-medium);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 140px;
+            padding-bottom: 80px;
+            background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            margin-bottom: 24px;
+            line-height: 1.15;
+        }
+
+        .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            margin-bottom: 32px;
+            color: var(--text-medium);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .trust-badges {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: white;
+            border-radius: 999px;
+            box-shadow: var(--shadow-sm);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .badge i {
+            color: var(--primary);
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .hero-card {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: var(--shadow-2xl);
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .hero-card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .hero-card-info h4 {
+            margin-bottom: 4px;
+        }
+
+        .hero-card-info p {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .qr-code {
+            width: 120px;
+            height: 120px;
+            background: var(--bg-lighter);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .qr-code i {
+            font-size: 4rem;
+            color: var(--text-light);
+        }
+
+        .verification-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.875rem;
+        }
+
+        .step i {
+            width: 20px;
+        }
+
+        .step.complete {
+            color: var(--secondary);
+        }
+
+        .step.pending {
+            color: var(--text-light);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            margin-bottom: 16px;
+        }
+
+        .section-header p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 36px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-light);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 2rem;
+        }
+
+        .icon-primary {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        .icon-secondary {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+        }
+
+        .icon-accent {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent);
+        }
+
+        .icon-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .feature-card h3 {
+            margin-bottom: 12px;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+        }
+
+        /* Mobile App Section */
+        .mobile-app {
+            background: var(--bg-light);
+        }
+
+        .mobile-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .mobile-features {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .mobile-feature {
+            display: flex;
+            align-items: start;
+            gap: 16px;
+        }
+
+        .mobile-feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--gradient-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .mobile-feature h4 {
+            margin-bottom: 8px;
+        }
+
+        .mobile-mockup {
+            position: relative;
+            text-align: center;
+        }
+
+        .phone-frame {
+            width: 300px;
+            height: 600px;
+            background: white;
+            border-radius: 40px;
+            box-shadow: var(--shadow-2xl);
+            margin: 0 auto;
+            padding: 16px;
+            border: 8px solid var(--text-dark);
+            position: relative;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, var(--bg-light) 0%, white 100%);
+            border-radius: 32px;
+            overflow: hidden;
+        }
+
+        /* Data Migration Section */
+        .data-migration {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .data-migration::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .data-migration .section-header h2,
+        .data-migration .section-header p {
+            color: white;
+        }
+
+        .migration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .migration-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .migration-card i {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .migration-card h4 {
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .migration-card p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Pricing Section */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-xl);
+            transform: scale(1.05);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-primary);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .pricing-header h3 {
+            margin-bottom: 12px;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            font-family: var(--font-heading);
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .price span {
+            font-size: 1.25rem;
+            color: var(--text-medium);
+            font-weight: 500;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features i {
+            color: var(--secondary);
+            flex-shrink: 0;
+        }
+
+        /* Security Section */
+        .security {
+            background: var(--bg-light);
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 32px;
+        }
+
+        .security-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .security-card i {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .security-card h4 {
+            margin-bottom: 12px;
+        }
+
+        /* Demo Section */
+        .demo-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .demo-section .section-header h2,
+        .demo-section .section-header p {
+            color: white;
+        }
+
+        .demo-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .demo-form,
+        .login-form {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .form-title {
+            color: white;
+            margin-bottom: 24px;
+            font-size: 1.75rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: white;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-dark);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: white;
+            background: white;
+        }
+
+        .login-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .login-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 24px 0;
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 80px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 24px;
+        }
+
+        .footer-col p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .footer-col a {
+            display: block;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin-bottom: 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-col a:hover {
+            color: var(--primary-light);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-4px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-content,
+            .mobile-content,
+            .demo-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===================== */
+        /* SECTION VISIBILITY */
+        /* ===================== */
+        .hidden-section {
+            display: none !important;
+        }
+
+        /* ===================== */
+        /* ADMIN PANEL STYLES */
+        /* ===================== */
+        #app-view {
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        #app-view h1,
+        #app-view h2,
+        #app-view h3,
+        #app-view p,
+        #app-view label,
+        #app-view span,
+        #app-view div {
+            color: #212121;
+        }
+
+        #app-view .text-white,
+        #app-view .text-white * {
+            color: #ffffff !important;
+        }
+
+        .glass-react {
+            background: rgba(255, 255, 255, 0.7) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ================= HOME PAGE SECTION ================= -->
+    <div id="home-view">
+        <!-- Header / Navigation -->
+        <header id="header">
+            <div class="container">
+                <nav>
+                    <a href="#" class="logo">
+                        <i class="fas fa-id-card-alt"></i>
+                        <span>AI-ID Management</span>
+                    </a>
+
+                    <ul class="nav-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#solutions">Solutions</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#programs">Programs</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+
+                    <div class="nav-actions">
+                        <button class="btn btn-ghost" onclick="showSection('app-view')">Login</button>
+                        <a href="#demo" class="btn btn-primary">Book Demo</a>
+                    </div>
+
+                    <button class="mobile-menu-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1>
+                            <span class="gradient-text">AI-Powered ID Card</span><br>
+                            Management ERP Platform
+                        </h1>
+                        <p>Create, verify, manage, and distribute secure ID cards with AI automation, real-time
+                            dashboards,
+                            and secure payments.</p>
+
+                        <div class="hero-buttons">
+                            <a href="#demo" class="btn btn-primary btn-lg">
+                                <i class="fas fa-calendar-alt"></i>
+                                Book Free Demo
+                            </a>
+                            <a href="#trial" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-rocket"></i>
+                                Start 14-Day Free Trial
+                            </a>
+                        </div>
+
+                        <div class="trust-badges">
+                            <div class="badge">
+                                <i class="fas fa-robot"></i>
+                                AI-Powered
+                            </div>
+                            <div class="badge">
+                                <i class="fas fa-shield-alt"></i>
+                                Secure Payments
+                            </div>
+                            <div class="badge">
+                                <i class="fas fa-cloud"></i>
+                                Cloud-Based
+                            </div>
+                            <div class="badge">
+                                <i class="fas fa-language"></i>
+                                Multi-Language
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hero-image">
+                        <div class="hero-card">
+                            <div class="hero-card-header">
+                                <div class="avatar">AK</div>
+                                <div class="hero-card-info">
+                                    <h4>Amit Kumar</h4>
+                                    <p>Student • ID: 2024-STU-001</p>
+                                </div>
+                                <div class="status-badge">Active</div>
+                            </div>
+
+                            <div class="qr-code">
+                                <i class="fas fa-qrcode"></i>
+                            </div>
+
+                            <div class="verification-steps">
+                                <div class="step complete">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>AI Data Migration - Complete</span>
+                                </div>
+                                <div class="step complete">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Photo Verified</span>
+                                </div>
+                                <div class="step complete">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>ID Card Generated</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features" id="products">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Complete ID Card Management Suite</h2>
+                    <p>Everything you need to manage ID cards at scale</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-primary">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>AI ID Card Creation & Verification</h3>
+                        <p>Automated ID card generation with AI-powered photo verification and quality checks</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon icon-secondary">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <h3>Secure Payments</h3>
+                        <p>Integrated payment gateway supporting UPI, Cards, Net Banking with automatic reconciliation
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon icon-accent">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h3>Admin Dashboard</h3>
+                        <p>Comprehensive dashboard with role-based access control and real-time analytics</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon icon-danger">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Employee/Client Login Portals</h3>
+                        <p>Dedicated portals for employees and clients with personalized access</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon icon-primary">
+                            <i class="fab fa-telegram"></i>
+                        </div>
+                        <h3>Telegram Login & Chatbot</h3>
+                        <p>Seamless Telegram integration for instant access and automated support</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon icon-secondary">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>AI Analytics & Reports</h3>
+                        <p>Advanced analytics with AI-powered insights and customizable reports</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon icon-accent">
+                            <i class="fas fa-warehouse"></i>
+                        </div>
+                        <h3>Inventory & Asset Management</h3>
+                        <p>Track and manage all your assets and inventory in real-time</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon icon-danger">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <h3>Compliance Automation</h3>
+                        <p>Automated compliance checks and regulatory reporting</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mobile App Section -->
+        <section class="mobile-app" id="solutions">
+            <div class="container">
+                <div class="mobile-content">
+                    <div>
+                        <div class="section-header" style="text-align: left; margin-bottom: 40px;">
+                            <h2>Powerful Mobile Apps for Employee/Client Login Portals</h2>
+                            <p style="margin: 0;">Access everything on the go with our feature-rich mobile applications
+                            </p>
+                        </div>
+
+                        <div class="mobile-features">
+                            <div class="mobile-feature">
+                                <div class="mobile-feature-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div>
+                                    <h4>Cross-Platform Login</h4>
+                                    <p>Seamless login experience across web and mobile platforms</p>
+                                </div>
+                            </div>
+
+                            <div class="mobile-feature">
+                                <div class="mobile-feature-icon">
+                                    <i class="fas fa-wifi"></i>
+                                </div>
+                                <div>
+                                    <h4>Offline Mode with Auto-Sync</h4>
+                                    <p>Work without internet and automatically sync when connected</p>
+                                </div>
+                            </div>
+
+                            <div class="mobile-feature">
+                                <div class="mobile-feature-icon">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <div>
+                                    <h4>Real-Time Notifications</h4>
+                                    <p>Instant alerts for important updates and activities</p>
+                                </div>
+                            </div>
+
+                            <div class="mobile-feature">
+                                <div class="mobile-feature-icon">
+                                    <i class="fas fa-id-card"></i>
+                                </div>
+                                <div>
+                                    <h4>ID Card View & Download</h4>
+                                    <p>View, download, and share ID cards directly from mobile</p>
+                                </div>
+                            </div>
+
+                            <div class="mobile-feature">
+                                <div class="mobile-feature-icon">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <div>
+                                    <h4>Multi-Language Support</h4>
+                                    <p>Available in 10+ Indian languages for wider accessibility</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-mockup">
+                        <div class="phone-frame">
+                            <div class="phone-screen">
+                                <!-- Mock mobile interface would go here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Migration Section -->
+        <section class="data-migration">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Migrate from Any Legacy System in 1 Week</h2>
+                    <p>Our AI-powered migration tool supports all major data formats</p>
+                </div>
+
+                <div class="migration-grid">
+                    <div class="migration-card">
+                        <i class="fas fa-file-excel"></i>
+                        <h4>Excel Sheets</h4>
+                        <p>Direct import from Microsoft Excel files with intelligent column mapping</p>
+                    </div>
+
+                    <div class="migration-card">
+                        <i class="fab fa-google"></i>
+                        <h4>Google Sheets</h4>
+                        <p>Seamless integration with Google Sheets for real-time data sync</p>
+                    </div>
+
+                    <div class="migration-card">
+                        <i class="fas fa-file-csv"></i>
+                        <h4>CSV Files</h4>
+                        <p>Import data from any CSV file format with automatic validation</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="pricing" id="pricing">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Simple & Transparent Pricing</h2>
+                    <p>Choose the plan that fits your institution's size</p>
+                </div>
+
+                <div class="pricing-grid">
+                    <!-- Free Plan -->
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Free Plan</h3>
+                            <div class="price">
+                                ₹0
+                                <span>/year</span>
+                            </div>
+                            <p>Perfect for testing</p>
+                        </div>
+
+                        <ul class="pricing-features">
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Up to 10 ID Cards</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>1 Admin (Client Login Portal)</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Basic Reports</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Community Support</span>
+                            </li>
+                        </ul>
+
+                        <a href="#trial" class="btn btn-secondary" style="width: 100%;">Start Free Trial</a>
+                    </div>
+
+                    <!-- Professional Plan -->
+                    <div class="pricing-card featured">
+                        <div class="pricing-badge">Most Popular</div>
+                        <div class="pricing-header">
+                            <h3>Professional Plan</h3>
+                            <div class="price">
+                                ₹500
+                                <span>/ID Card/Year</span>
+                            </div>
+                            <p>For growing institutions</p>
+                        </div>
+
+                        <ul class="pricing-features">
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>500–2,000 ID Cards</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>AI Data Migration</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Attendance & HRMS</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Communication Hub</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>10 Admin Users</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Priority Support</span>
+                            </li>
+                        </ul>
+
+                        <a href="#trial" class="btn btn-primary" style="width: 100%;">Start Free Trial</a>
+                    </div>
+
+                    <!-- Enterprise Plan -->
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Enterprise Plan</h3>
+                            <div class="price">
+                                ₹1,000
+                                <span>/ID Card/Year</span>
+                            </div>
+                            <p>For large institutions</p>
+                        </div>
+
+                        <ul class="pricing-features">
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>2,000+ ID Cards</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Advanced AI Analytics</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Full ERP Modules</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>HR, LMS, Hostel, Transport</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Unlimited Admin Users</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Dedicated Support</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Custom Integrations</span>
+                            </li>
+                        </ul>
+
+                        <a href="#trial" class="btn btn-secondary" style="width: 100%;">Start Free Trial</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Security Section -->
+        <section class="security" id="about">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Bank-Grade Security & Privacy</h2>
+                    <p>Your data is protected with enterprise-level security</p>
+                </div>
+
+                <div class="security-grid">
+                    <div class="security-card">
+                        <i class="fas fa-lock"></i>
+                        <h4>Encrypted Data Storage</h4>
+                        <p>All data encrypted at rest and in transit using AES-256 encryption</p>
+                    </div>
+
+                    <div class="security-card">
+                        <i class="fas fa-user-shield"></i>
+                        <h4>Role-Based Access Control</h4>
+                        <p>Granular permissions and access controls for every user</p>
+                    </div>
+
+                    <div class="security-card">
+                        <i class="fas fa-clipboard-list"></i>
+                        <h4>Audit Logs</h4>
+                        <p>Complete audit trail of all actions and changes</p>
+                    </div>
+
+                    <div class="security-card">
+                        <i class="fas fa-shield-virus"></i>
+                        <h4>Secure Payment Gateway</h4>
+                        <p>PCI-DSS compliant payment processing</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo & Login Section -->
+        <section class="demo-section" id="demo">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Get Started Today</h2>
+                    <p>Book a demo or start your free trial now</p>
+                </div>
+
+                <div class="demo-content">
+                    <!-- Book Demo Form -->
+                    <div class="demo-form">
+                        <h3 class="form-title">Book Free Demo</h3>
+                        <form id="demoForm">
+                            <div class="form-group">
+                                <label for="fullName">Full Name *</label>
+                                <input type="text" id="fullName" name="fullName" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="mobile">Mobile Number *</label>
+                                <input type="tel" id="mobile" name="mobile" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="city">City *</label>
+                                <input type="text" id="city" name="city" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address">Address *</label>
+                                <textarea id="address" name="address" rows="3" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="idCards">Number of ID Cards *</label>
+                                <select id="idCards" name="idCards" required>
+                                    <option value="">Select range</option>
+                                    <option value="0-50">0 - 50</option>
+                                    <option value="50-500">50 - 500</option>
+                                    <option value="500-2000">500 - 2,000</option>
+                                    <option value="2000+">2,000+</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                <i class="fas fa-calendar-check"></i>
+                                Book Demo Now
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Login Form -->
+                    <div class="login-form" id="login">
+                        <h3 class="form-title">Login to Your Account</h3>
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label for="loginEmail">Email</label>
+                                <input type="email" id="loginEmail" name="loginEmail">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="loginPassword">Password</label>
+                                <input type="password" id="loginPassword" name="loginPassword">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Login with Email
+                            </button>
+                        </form>
+
+                        <div class="divider">OR</div>
+
+                        <div class="login-options">
+                            <button class="login-btn">
+                                <i class="fas fa-mobile-alt"></i>
+                                Login with Mobile OTP
+                            </button>
+
+                            <button class="login-btn">
+                                <i class="fab fa-telegram"></i>
+                                Login with Telegram
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="contact">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <h4>AI-ID Management</h4>
+                        <p>Digitizing institutions, one ID at a time. Powered by AI for smarter, faster, and more secure
+                            ID
+                            card management.</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="footer-col">
+                        <h4>Product</h4>
+                        <a href="#features">Features</a>
+                        <a href="#pricing">Pricing</a>
+                        <a href="#demo">Book Demo</a>
+                        <a href="#">API Docs</a>
+                    </div>
+
+                    <div class="footer-col">
+                        <h4>Solutions</h4>
+                        <a href="#">For Schools</a>
+                        <a href="#">For Colleges</a>
+                        <a href="#">For Corporates</a>
+                        <a href="#">For Government</a>
+                    </div>
+
+                    <div class="footer-col">
+                        <h4>Resources</h4>
+                        <a href="#">Blog</a>
+                        <a href="#">Case Studies</a>
+                        <a href="#">Help Center</a>
+                        <a href="#">Tutorials</a>
+                    </div>
+
+                    <div class="footer-col">
+                        <h4>Company</h4>
+                        <a href="#">About Us</a>
+                        <a href="#">Careers</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p>&copy; 2026 AI-ID Management Platform. Digitizing, One ID at a Time. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div> <!-- End home-view -->
+
+    <script>
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
+
+        function showMessage(message, type = 'success') {
+            const alertDiv = document.createElement('div');
+            alertDiv.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 24px;
+                padding: 16px 24px;
+                background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#f59e0b'};
+                color: white;
+                border-radius: 12px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                max-width: 400px;
+            `;
+            alertDiv.textContent = message;
+            document.body.appendChild(alertDiv);
+
+            setTimeout(() => {
+                alertDiv.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => alertDiv.remove(), 300);
+            }, 5000);
+        }
+
+        function showLoader(button) {
+            button.dataset.originalText = button.innerHTML;
+            button.disabled = true;
+            button.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Processing...';
+        }
+
+        function hideLoader(button) {
+            button.disabled = false;
+            button.innerHTML = button.dataset.originalText || 'Submit';
+        }
+
+        // ============================================
+        // HEADER SCROLL EFFECT
+        // ============================================
+
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // ============================================
+        // DEMO FORM SUBMISSION
+        // ============================================
+
+        document.getElementById('demoForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            showLoader(submitBtn);
+
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                mobile: document.getElementById('mobile').value,
+                city: document.getElementById('city').value,
+                address: document.getElementById('address').value,
+                idCards: document.getElementById('idCards').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/demo/book`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage('Demo booking successful! We will contact you shortly.', 'success');
+                    this.reset();
+                } else {
+                    showMessage(data.message || 'Booking failed. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Unable to book demo. Please check your connection and try again.', 'error');
+            } finally {
+                hideLoader(submitBtn);
+            }
+        });
+
+        // ============================================
+        // EMAIL/PASSWORD LOGIN
+        // ============================================
+
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            showLoader(submitBtn);
+
+            const loginData = {
+                email: document.getElementById('loginEmail').value,
+                password: document.getElementById('loginPassword').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(loginData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Store session token
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+
+                    showMessage(`Welcome back, ${data.user.name || data.user.email}!`, 'success');
+
+                    // Redirect to dashboard after 1 second
+                    setTimeout(() => {
+                        window.location.href = '/dashboard.html'; // You'll create this later
+                    }, 1000);
+                } else {
+                    showMessage(data.message || 'Login failed', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Login failed. Please try again.', 'error');
+            } finally {
+                hideLoader(submitBtn);
+            }
+        });
+
+        // ============================================
+        // MOBILE OTP LOGIN
+        // ============================================
+
+        let otpSent = false;
+        let mobileNumber = '';
+
+        document.addEventListener('click', async function (e) {
+            // Handle OTP Request
+            if (e.target.closest('.login-btn') && e.target.closest('.login-btn').textContent.includes('Mobile OTP')) {
+                const button = e.target.closest('.login-btn');
+
+                if (!otpSent) {
+                    const mobile = prompt('Enter your mobile number:');
+                    if (!mobile) return;
+
+                    showLoader(button);
+                    mobileNumber = mobile;
+
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/auth/request-otp`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ mobile })
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                            otpSent = true;
+                            button.innerHTML = '<i class="fas fa-check"></i> Enter OTP';
+                            showMessage(`OTP sent to ${mobile}. ${data.debug_otp ? 'OTP: ' + data.debug_otp : ''}`, 'success');
+                        } else {
+                            showMessage(data.message, 'error');
+                        }
+                    } catch (error) {
+                        showMessage('Failed to send OTP', 'error');
+                    } finally {
+                        hideLoader(button);
+                    }
+                } else {
+                    const otp = prompt('Enter the OTP sent to your mobile:');
+                    if (!otp) return;
+
+                    showLoader(button);
+
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/auth/verify-otp`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ mobile: mobileNumber, otp })
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                            localStorage.setItem('authToken', data.token);
+                            localStorage.setItem('user', JSON.stringify(data.user));
+
+                            showMessage('Login successful!', 'success');
+                            setTimeout(() => {
+                                window.location.href = '/dashboard.html';
+                            }, 1000);
+                        } else {
+                            showMessage(data.message, 'error');
+                            otpSent = false;
+                            button.innerHTML = '<i class="fas fa-mobile-alt"></i> Login with Mobile OTP';
+                        }
+                    } catch (error) {
+                        showMessage('OTP verification failed', 'error');
+                        otpSent = false;
+                        button.innerHTML = '<i class="fas fa-mobile-alt"></i> Login with Mobile OTP';
+                    } finally {
+                        hideLoader(button);
+                    }
+                }
+            }
+        });
+
+        // ============================================
+        // TELEGRAM LOGIN CALLBACK
+        // ============================================
+
+        async function onTelegramAuth(user) {
+            console.log('Telegram user data:', user);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/telegram`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+
+                    showMessage(`Welcome, ${data.user.firstName}!`, 'success');
+                    setTimeout(() => {
+                        window.location.href = '/dashboard.html';
+                    }, 1000);
+                } else {
+                    showMessage('Telegram login failed', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Telegram login failed', 'error');
+            }
+        }
+
+        // Initialize Telegram Login Widget - IMPORTANT: Replace 'YOUR_BOT_NAME' with actual bot username
+        document.addEventListener('DOMContentLoaded', function () {
+            const telegramLoginBtn = document.querySelector('.login-btn:has(.fa-telegram)');
+            if (telegramLoginBtn) {
+                telegramLoginBtn.addEventListener('click', function () {
+                    showMessage('Telegram integration requires a Telegram bot. Please configure your bot in .env file.', 'info');
+                    // Uncomment this when you have a bot set up:
+                    // const script = document.createElement('script');
+                    // script.async = true;
+                    // script.src = 'https://telegram.org/js/telegram-widget.js?22';
+                    // script.setAttribute('data-telegram-login', 'YOUR_BOT_NAME');
+                    // script.setAttribute('data-size', 'large');
+                    // script.setAttribute('data-onauth', 'onTelegramAuth(user)');
+                    // script.setAttribute('data-request-access', 'write');
+                    // document.getElementById('telegram-login-container').appendChild(script);
+                });
+            }
+        });
+
+        // ============================================
+        // FREE TRIAL SIGNUP (from hero buttons)
+        // ============================================
+
+        document.querySelectorAll('[href="#trial"]').forEach(btn => {
+            btn.addEventListener('click', async function (e) {
+                e.preventDefault();
+
+                const fullName = prompt('Enter your full name:');
+                if (!fullName) return;
+
+                const email = prompt('Enter your email:');
+                if (!email) return;
+
+                const mobile = prompt('Enter your mobile number:');
+                if (!mobile) return;
+
+                const organizationName = prompt('Enter your organization name (optional):');
+                const organizationType = prompt('Organization type (School/College/Corporate/Other):');
+
+                const trialData = {
+                    fullName,
+                    email,
+                    mobile,
+                    organizationName,
+                    organizationType
+                };
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/trial/signup`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(trialData)
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        showMessage('Trial account created! Check your email for login credentials.', 'success');
+                        // Show credentials (in production, send via email)
+                        alert(`Trial Account Created!\\n\\nEmail: ${data.user.email}\\nPassword: ${data.user.password}\\n\\nPlease save these credentials and login.`);
+                    } else {
+                        showMessage(data.message, 'error');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showMessage('Failed to create trial account', 'error');
+                }
+            });
+        });
+
+        // ============================================
+        // SMOOTH SCROLLING FOR ANCHOR LINKS
+        // ============================================
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#trial' || href === '#demo' || href === '#login') {
+                    // These are handled by specific functions above
+                    return;
+                }
+
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // ============================================
+        // ADD ANIMATION STYLES
+        // ============================================
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    <!-- ================= APP/LOGIN ADMIN SECTION ================= -->
+    <div id="app-view" class="hidden-section bg-gradient-to-br from-slate-100 to-slate-300">
+        <div id="root"></div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.getElementById('home-view').classList.add('hidden-section');
+            document.getElementById('app-view').classList.add('hidden-section');
+
+            const target = document.getElementById(sectionId);
+            if (target) {
+                target.classList.remove('hidden-section');
+
+                // Re-trigger Lucide icons
+                if (window.lucide) window.lucide.createIcons();
+
+                window.scrollTo(0, 0);
+            }
+        }
+    </script>
+
+    <!-- React App Script -->
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { User, Lock, Users, PlusCircle, LayoutDashboard, LogOut, Save, Search, Table, Eye, Menu } = lucide || {};
+
+        // --- CONFIGURATION ---
+        const API_URL = "https://script.google.com/macros/s/AKfycbwofVIxLyYvvUavg8mAO0kymQylZSWiEEUVbw2INjUCtNtIidF4ABnbt-OJmzx01oI/exec";
+
+        // --- MOCK DATA ---
+        const MOCK_DEPARTMENTS = ["HR", "Engineering", "Sales", "Marketing", "Finance"];
+        const MOCK_DESIGNATIONS = ["Manager", "Lead", "Senior", "Junior", "Intern"];
+
+        // 1. LOGIN PAGE COMPONENT
+        const LoginPage = ({ onLogin }) => {
+            const [role, setRole] = useState('admin');
+            const [credentials, setCredentials] = useState({ username: '', password: '' });
+
+            const handleChange = (e) => {
+                setCredentials({ ...credentials, [e.target.name]: e.target.value });
+            };
+
+            const handleLogin = (e) => {
+                e.preventDefault();
+                if (role === 'admin') {
+                    if (credentials.username === "ADMIN" && credentials.password === "123456") {
+                        alert("Login Successful! Welcome Admin.");
+                        onLogin(role);
+                    } else {
+                        alert("Invalid Credentials. Please use Username: ADMIN and Password: 123456");
+                    }
+                } else {
+                    onLogin(role);
+                }
+            };
+
+            return (
+                <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4">
+                    <div className="absolute top-4 left-4 z-50">
+                        <button onClick={() => showSection('home-view')} className="bg-white/20 hover:bg-white/40 text-white px-4 py-2 rounded-lg backdrop-blur-sm text-sm font-medium transition-all flex items-center gap-2">
+                            ← Back to Home
+                        </button>
+                    </div>
+                    <div className="glass-react bg-white/90 p-8 rounded-2xl shadow-2xl w-full max-w-md transform transition-all hover:scale-[1.01]">
+                        <div className="text-center mb-8">
+                            <h1 className="text-3xl font-bold text-gray-800 tracking-tight">Welcome Back</h1>
+                            <p className="text-gray-500 mt-2">Sign in to your dashboard</p>
+                        </div>
+
+                        <div className="flex bg-gray-100 p-1 rounded-lg mb-6">
+                            <button
+                                type="button"
+                                className={`flex-1 py-2 rounded-md text-sm font-medium transition-all ${role === 'admin' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
+                                onClick={() => setRole('admin')}
+                            >
+                                Admin
+                            </button>
+                            <button
+                                type="button"
+                                className={`flex-1 py-2 rounded-md text-sm font-medium transition-all ${role === 'client' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
+                                onClick={() => setRole('client')}
+                            >
+                                Client
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleLogin} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                                <div className="relative">
+                                    <span className="absolute left-3 top-3 text-gray-400"><i data-lucide="user"></i></span>
+                                    <input
+                                        type="text"
+                                        name="username"
+                                        value={credentials.username}
+                                        onChange={handleChange}
+                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-black bg-white"
+                                        placeholder="Enter username"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                                <div className="relative">
+                                    <span className="absolute left-3 top-3 text-gray-400"><i data-lucide="lock"></i></span>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        value={credentials.password}
+                                        onChange={handleChange}
+                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-black bg-white"
+                                        placeholder="••••••••"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform active:scale-95">
+                                Login as {role === 'admin' ? 'Admin' : 'Client'}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            );
+        };
+
+        const SidebarItem = ({ icon, label, active, onClick }) => (
+            <button
+                type="button"
+                onClick={onClick}
+                className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg transition-all duration-200 ${active ? 'bg-indigo-50 text-indigo-700 shadow-sm font-medium' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`}
+            >
+                <i data-lucide={icon} className={`w-5 h-5 ${active ? 'text-indigo-600' : 'text-gray-400'}`}></i>
+                <span>{label}</span>
+            </button>
+        );
+
+        const Section = ({ title, children }) => (
+            <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">{title}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {children}
+                </div>
+            </div>
+        );
+
+        const Input = ({ label, ...props }) => (
+            <div className="w-full">
+                <label className="block text-sm font-medium text-gray-700 mb-1">{label} {props.required && '*'}</label>
+                <input {...props} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all disabled:bg-gray-100" />
+            </div>
+        );
+
+        const Select = ({ label, options, ...props }) => (
+            <div className="w-full">
+                <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+                <select {...props} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all">
+                    {options.map(o => <option key={o} value={o}>{o}</option>)}
+                </select>
+            </div>
+        );
+
+        const Checkbox = ({ label, ...props }) => (
+            <label className="flex items-center space-x-2 cursor-pointer">
+                <input type="checkbox" {...props} className="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500 border-gray-300" />
+                <span className="text-sm text-gray-700 select-none">{label}</span>
+            </label>
+        );
+
+        // 3. ADD EMPLOYEE FORM
+        const AddEmployeeForm = () => {
+            const [loading, setLoading] = useState(false);
+            const [formData, setFormData] = useState({
+                EmployeeID: '', BiometricID: '', Salute: 'Mr', FirstName: '', MiddleName: '', LastName: '', ShortName: '', Gender: 'Male',
+                WorkEmail: '', MobileNumber: '',
+                Status: 'Active', EmployeeType: 'Full-Time', Department: '', Designation: '', UserType: 'User', Location: '',
+                DateOfJoining: '', ReportingTo: '',
+                IsAdmin: 'No', IsApprover: 'No',
+                LoginBasedOn: 'Email', PasswordChangeRequired: false
+            });
+
+            const handleChange = (e) => {
+                const { name, value, type, checked } = e.target;
+                setFormData(prev => ({
+                    ...prev,
+                    [name]: type === 'checkbox' ? checked : value
+                }));
+            };
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setLoading(true);
+
+                if (!API_URL) {
+                    alert("Please configure the API_URL in the code first!");
+                    setLoading(false);
+                    return;
+                }
+
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'ADD_EMPLOYEE', payload: formData })
+                    });
+                    alert("Request Sent! (Note: With Google Apps Script no-cors, check your sheet to verify)");
+                    setFormData({ ...formData, EmployeeID: '', FirstName: '', LastName: '', WorkEmail: '', MobileNumber: '' });
+                } catch (error) {
+                    alert("Error saving data: " + error.message);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            return (
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 fade-in">
+                    <div className="mb-8 border-b border-gray-100 pb-4 flex justify-between items-center">
+                        <div>
+                            <h2 className="text-2xl font-bold text-gray-800">Add New Employee</h2>
+                            <p className="text-gray-500 text-sm mt-1">Fill in the details to register a new team member.</p>
+                        </div>
+                        <div className="h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600">
+                            <i data-lucide="plus-circle"></i>
+                        </div>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-8">
+                        <Section title="Identification">
+                            <Input name="EmployeeID" label="Employee ID" value={formData.EmployeeID} onChange={handleChange} required />
+                            <Input name="BiometricID" label="Biometric ID" value={formData.BiometricID} onChange={handleChange} />
+                        </Section>
+
+                        <Section title="Personal Details">
+                            <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
+                                <div className="md:col-span-1">
+                                    <Select name="Salute" label="Title" options={['Mr', 'Ms', 'Mrs', 'Dr']} value={formData.Salute} onChange={handleChange} />
+                                </div>
+                                <div className="md:col-span-2"><Input name="FirstName" label="First Name" value={formData.FirstName} onChange={handleChange} required /></div>
+                                <div className="md:col-span-1"><Input name="MiddleName" label="Middle Name" value={formData.MiddleName} onChange={handleChange} /></div>
+                                <div className="md:col-span-2"><Input name="LastName" label="Last Name" value={formData.LastName} onChange={handleChange} /></div>
+                            </div>
+                        </Section>
+
+                        <Section title="Contact Information">
+                            <Input type="email" name="WorkEmail" label="Work Email" value={formData.WorkEmail} onChange={handleChange} required />
+                            <Input type="tel" name="MobileNumber" label="Mobile Number" value={formData.MobileNumber} onChange={handleChange} required />
+                        </Section>
+
+                        <div className="pt-6 border-t border-gray-100 flex justify-end">
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className={`flex items-center space-x-2 px-8 py-3 bg-indigo-600 text-white rounded-lg shadow-lg hover:shadow-xl hover:bg-indigo-700 transition-all ${loading ? 'opacity-70 cursor-wait' : ''}`}
+                            >
+                                <i data-lucide="save" className="w-5 h-5"></i>
+                                <span>{loading ? 'Saving...' : 'Save Employee'}</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            );
+        };
+
+        // 4. EMPLOYEE LIST
+        const EmployeeList = () => {
+            const [employees, setEmployees] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [search, setSearch] = useState('');
+
+            useEffect(() => {
+                fetchData();
+            }, []);
+
+            const fetchData = async () => {
+                try {
+                    const res = await fetch(API_URL);
+                    const json = await res.json();
+                    if (json.status === 'success') setEmployees(json.data);
+                } catch (err) {
+                    console.error(err);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const filtered = employees.filter(e =>
+                e.FirstName?.toLowerCase().includes(search.toLowerCase()) ||
+                e.LastName?.toLowerCase().includes(search.toLowerCase()) ||
+                e.EmployeeID?.toLowerCase().includes(search.toLowerCase())
+            );
+
+            return (
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 min-h-[500px]">
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-2xl font-bold text-gray-800">Employee Directory</h2>
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            className="pl-4 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none w-64"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                    </div>
+
+                    {loading ? (
+                        <div className="text-center py-20 text-gray-500">Loading data...</div>
+                    ) : (
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="border-b border-gray-200">
+                                        <th className="py-3 font-semibold text-gray-600">ID</th>
+                                        <th className="py-3 font-semibold text-gray-600">Name</th>
+                                        <th className="py-3 font-semibold text-gray-600">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {filtered.map((emp, i) => (
+                                        <tr key={i} className="border-b border-gray-100 hover:bg-gray-50">
+                                            <td className="py-3 text-indigo-600 font-medium">{emp.EmployeeID}</td>
+                                            <td className="py-3">{emp.FirstName} {emp.LastName}</td>
+                                            <td className="py-3"><span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs">{emp.Status}</span></td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // 2. DASHBOARD COMPONENT
+        const Dashboard = ({ userRole, onLogout }) => {
+            const [activeTab, setActiveTab] = useState('add-employee');
+
+            useEffect(() => {
+                if (window.lucide) window.lucide.createIcons();
+            }, [activeTab]);
+
+            return (
+                <div className="flex h-screen bg-gray-50 overflow-hidden">
+                    <aside className="w-64 bg-white border-r border-gray-200 flex flex-col z-10 text-left">
+                        <div className="p-6 border-b border-gray-100">
+                            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Company<span className="font-light text-gray-600">Hub</span></h2>
+                        </div>
+                        <nav className="flex-1 p-4 space-y-2">
+                            <SidebarItem icon="plus-circle" label="Add Employee" active={activeTab === 'add-employee'} onClick={() => setActiveTab('add-employee')} />
+                            <SidebarItem icon="table" label="Employee List" active={activeTab === 'list'} onClick={() => setActiveTab('list')} />
+                        </nav>
+                        <div className="p-4 border-t border-gray-100">
+                            <button onClick={onLogout} className="flex items-center space-x-3 w-full px-4 py-2 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors">
+                                <i data-lucide="log-out" className="w-5 h-5"></i>
+                                <span>Logout</span>
+                            </button>
+                        </div>
+                    </aside>
+                    <main className="flex-1 overflow-y-auto p-8 relative text-left">
+                        <div className="max-w-7xl mx-auto">
+                            {activeTab === 'add-employee' && <AddEmployeeForm />}
+                            {activeTab === 'list' && <EmployeeList />}
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        // MAIN APP WRAPPER
+        const App = () => {
+            const [view, setView] = useState('login');
+            const [userRole, setUserRole] = useState(null);
+
+            useEffect(() => {
+                if (window.lucide) window.lucide.createIcons();
+            }, [view]);
+
+            const handleLogin = (role) => {
+                setUserRole(role);
+                setView('dashboard');
+            };
+
+            const handleLogout = () => {
+                setUserRole(null);
+                setView('login');
+            };
+
+            if (view === 'login') return <LoginPage onLogin={handleLogin} />;
+            return <Dashboard userRole={userRole} onLogout={handleLogout} />;
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
