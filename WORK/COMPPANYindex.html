@@ -1,0 +1,1663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-Powered Global ID Card Management System & Institutional ERP.">
+    <title>AI-ID Global | Admin & Client Portal</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;700&family=Same:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS (Home) -->
+    <!-- CSS Inlined into main style block -->
+
+    <!-- React & DOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#10B981',
+                        dark: '#111827',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ================= MERGED STYLES (style.css) ================= */
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --accent: #8b5cf6;
+            --dark-bg: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --font-heading: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Background Effects */
+        .background-globes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .globe {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: floatGlobe 20s infinite alternate;
+        }
+
+        .globe-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--primary), transparent);
+            top: -100px;
+            left: -100px;
+        }
+
+        .globe-2 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent), transparent);
+            bottom: -100px;
+            right: -150px;
+            animation-delay: -5s;
+        }
+
+        .globe-3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #ec4899, transparent);
+            top: 40%;
+            left: 30%;
+            animation-delay: -10s;
+        }
+
+        @keyframes floatGlobe {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        /* Utilities */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font-body);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            color: var(--primary);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--dark-bg);
+        }
+
+        .btn-white:hover {
+            background: #f1f5f9;
+        }
+
+        .btn-lg {
+            padding: 16px 32px;
+            font-size: 1.1rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #60a5fa, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 16px 0;
+            transition: all 0.3s;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 160px;
+            padding-bottom: 100px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .badge {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 8px 16px;
+            border-radius: 99px;
+            font-size: 0.9rem;
+            color: #93c5fd;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            background: #60a5fa;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #60a5fa;
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 60px;
+        }
+
+        .trust-metrics {
+            display: flex;
+            gap: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .metric {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+        }
+
+        .metric-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+        }
+
+        .preview-card {
+            background: linear-gradient(160deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+            border-radius: 24px;
+            padding: 24px;
+            position: relative;
+            z-index: 10;
+            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+            transition: transform 0.3s;
+        }
+
+        .preview-card:hover {
+            transform: perspective(1000px) rotateY(0) rotateX(0);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .user-info {
+            display: flex;
+            gap: 16px;
+        }
+
+        .avatar img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .text h4 {
+            font-size: 1.1rem;
+            font-family: var(--font-heading);
+        }
+
+        .text small {
+            color: var(--text-muted);
+        }
+
+        .status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status.active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+        }
+
+        .qr-placeholder {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .qr-placeholder i {
+            color: black;
+            width: 60px;
+            height: 60px;
+        }
+
+        .verification-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+        }
+
+        .step.completed {
+            color: #4ade80;
+        }
+
+        .step.processing {
+            color: #fbbf24;
+        }
+
+        .spin {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .float-card {
+            position: absolute;
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: floatCard 6s infinite ease-in-out;
+        }
+
+        .float-1 {
+            top: -30px;
+            right: -20px;
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .float-2 {
+            bottom: -30px;
+            left: -20px;
+            animation-delay: 1.5s;
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.2);
+        }
+
+        @keyframes floatCard {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Features */
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            border-radius: 16px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 24px;
+        }
+
+        .bg-blue-glow {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .bg-purple-glow {
+            background: rgba(139, 92, 246, 0.2);
+            color: #a78bfa;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
+        }
+
+        .bg-green-glow {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+        }
+
+        .bg-orange-glow {
+            background: rgba(249, 115, 22, 0.2);
+            color: #fb923c;
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.2);
+        }
+
+        .feature-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Pricing */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            align-items: center;
+        }
+
+        .pricing-card {
+            padding: 40px 30px;
+            border-radius: 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pricing-card.popular {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: var(--primary);
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);
+        }
+
+        .ribbon {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .plan-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .plan-header h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            color: white;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            color: #e2e8f0;
+        }
+
+        .features-list li i {
+            width: 16px;
+            height: 16px;
+            color: var(--primary);
+        }
+
+        .full-width {
+            width: 100%;
+        }
+
+        .trial-text {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 12px;
+        }
+
+        /* CTA */
+        .cta-container {
+            padding: 80px;
+            border-radius: 24px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+        }
+
+        .cta-content h2 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+
+        .cta-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 0 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 100px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h4 {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+        }
+
+        .footer-col p {
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .footer-col a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-bottom: 12px;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--primary);
+        }
+
+        .socials {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+
+            .nav-links,
+            .nav-actions {
+                display: none;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                padding-top: 0;
+            }
+
+            .hero-visual {
+                order: -1;
+                margin-bottom: 40px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        /* ================= APP VIEW OVERRIDES ================= */
+        /* Specific overrides for App View to isolate styles */
+        #app-view {
+            /* Ensure it sits on top of any global body styles if needed */
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* React App Glass Utils override */
+        .glass-react {
+            background: rgba(255, 255, 255, 0.7) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        }
+
+        .glass-dark-react {
+            background: rgba(17, 24, 39, 0.8) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        /* Helper to hide/show */
+        .hidden-section {
+            display: none !important;
+        }
+
+        /* [Requirement 1] Fix Input Visibility - GLOBAL */
+        input,
+        select,
+        textarea {
+            color: #000000 !important;
+            background-color: #ffffff !important;
+            border: 1px solid #999999 !important;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #4F46E5 !important;
+            outline: 2px solid #e0e7ff;
+        }
+
+        /* [Requirement 3] Fix Text Visibility on White Screen */
+        #app-view h1,
+        #app-view h2,
+        #app-view h3,
+        #app-view p,
+        #app-view label,
+        #app-view span,
+        #app-view div {
+            color: #212121;
+        }
+
+        /* Preserve white text on buttons */
+        #app-view .text-white,
+        #app-view .text-white * {
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HOME PAGE SECTION ================= -->
+    <div id="home-view">
+        <div class="background-globes">
+            <div class="globe globe-1"></div>
+            <div class="globe globe-2"></div>
+            <div class="globe globe-3"></div>
+        </div>
+
+        <nav class="navbar glass">
+            <div class="container nav-container">
+                <a href="#" class="logo">
+                    <i data-lucide="scan-face" class="logo-icon"></i>
+                    <span>AI-ID Global</span>
+                </a>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#products">Products</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="nav-actions">
+                    <!-- Added onclick hander here -->
+                    <button class="btn btn-secondary" onclick="showSection('app-view')">Login</button>
+                    <button class="btn btn-primary">Book Demo</button>
+                </div>
+                <button class="mobile-toggle" aria-label="Menu">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </nav>
+
+        <header class="hero">
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <div class="badge">
+                        <span class="badge-dot"></span>
+                        Now with WhatsApp & Telegram Integration
+                    </div>
+                    <h1>The Future of <span class="gradient-text">ID Card Management</span> & Institutional ERP</h1>
+                    <p>Create, verify, and distribute secure ID cards globally. Automate your workflow with AI-powered
+                        data migration, document verification, and real-time analytics.</p>
+                    <div class="hero-btns">
+                        <button class="btn btn-primary btn-lg">Start 14-Day Free Trial</button>
+                        <button class="btn btn-outline btn-lg"><i data-lucide="play-circle"></i> Watch Video</button>
+                    </div>
+                    <div class="trust-metrics">
+                        <div class="metric">
+                            <span class="metric-value">2M+</span>
+                            <span class="metric-label">Cards Issued</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">500+</span>
+                            <span class="metric-label">Institutions</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">99.9%</span>
+                            <span class="metric-label">Uptime</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="glass-card preview-card">
+                        <div class="card-header">
+                            <div class="user-info">
+                                <div class="avatar">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User">
+                                </div>
+                                <div class="text">
+                                    <h4>Felix Johnson</h4>
+                                    <small>Student • ID: 89002</small>
+                                </div>
+                            </div>
+                            <span class="status active">Active</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="qr-placeholder">
+                                <i data-lucide="qr-code"></i>
+                            </div>
+                            <div class="verification-steps">
+                                <div class="step completed">
+                                    <i data-lucide="check-circle-2"></i>
+                                    <span>Data Migrated (AI)</span>
+                                </div>
+                                <div class="step completed">
+                                    <i data-lucide="check-circle-2"></i>
+                                    <span>Photo Verified</span>
+                                </div>
+                                <div class="step processing">
+                                    <i data-lucide="loader-2" class="spin"></i>
+                                    <span>Issuing Card...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Floating Elements -->
+                    <div class="float-card float-1 glass">
+                        <i data-lucide="shield-check" class="icon-success"></i>
+                        <span>Bank-Grade Security</span>
+                    </div>
+                    <div class="float-card float-2 glass">
+                        <i data-lucide="zap" class="icon-warning"></i>
+                        <span>Instant Sync</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section id="features" class="features section-padding">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Why Choose AI-ID?</h2>
+                    <p>A complete suite powered by logic and automation.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card glass">
+                        <div class="icon-wrapper bg-blue-glow">
+                            <i data-lucide="brain-circuit"></i>
+                        </div>
+                        <h3>AI Data Migration</h3>
+                        <p>Upload Excel/Google Sheets and let our AI map columns to the database automatically. 10x
+                            faster setup.</p>
+                    </div>
+                    <div class="feature-card glass">
+                        <div class="icon-wrapper bg-purple-glow">
+                            <i data-lucide="wifi-off"></i>
+                        </div>
+                        <h3>Offline Mode</h3>
+                        <p>Work without internet. Data is cached locally and auto-synced securely when you go back
+                            online.</p>
+                    </div>
+                    <div class="feature-card glass">
+                        <div class="icon-wrapper bg-green-glow">
+                            <i data-lucide="message-square-more"></i>
+                        </div>
+                        <h3>Communication Hub</h3>
+                        <p>Integrated WhatsApp & Telegram bots. Send real-time approvals, fee alerts, and parents
+                            notifications.</p>
+                    </div>
+                    <div class="feature-card glass">
+                        <div class="icon-wrapper bg-orange-glow">
+                            <i data-lucide="scan-line"></i>
+                        </div>
+                        <h3>Smart Verification</h3>
+                        <p>Auto-crop photos and verify documents using computer vision. Detect duplicates instantly.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="pricing section-padding">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Simple, Transparent Pricing</h2>
+                    <p>Choose the plan that fits your institution's size.</p>
+                </div>
+
+                <div class="pricing-grid">
+                    <!-- Free Tier -->
+                    <div class="pricing-card glass">
+                        <div class="plan-header">
+                            <h3>Starter</h3>
+                            <div class="price">₹0<span>/mo</span></div>
+                            <p>Perfect for trials & small shops</p>
+                        </div>
+                        <ul class="features-list">
+                            <li><i data-lucide="check"></i> 10 ID Cards Limit</li>
+                            <li><i data-lucide="check"></i> Basic Reports</li>
+                            <li><i data-lucide="check"></i> Email Support</li>
+                            <li><i data-lucide="check"></i> 10GB Storage</li>
+                        </ul>
+                        <button class="btn btn-outline full-width">Get Started</button>
+                    </div>
+
+                    <!-- Professional Tier -->
+                    <div class="pricing-card glass popular">
+                        <div class="ribbon">Most Popular</div>
+                        <div class="plan-header">
+                            <h3>Professional</h3>
+                            <div class="price">₹500<span>/card/yr</span></div>
+                            <p>For growing institutions (500-2k cards)</p>
+                        </div>
+                        <ul class="features-list">
+                            <li><i data-lucide="check"></i> <strong>AI Data Migration</strong></li>
+                            <li><i data-lucide="check"></i> WhatsApp/SMS Hub</li>
+                            <li><i data-lucide="check"></i> 50GB Storage</li>
+                            <li><i data-lucide="check"></i> Parent Mobile App</li>
+                            <li><i data-lucide="check"></i> Attendance Tracking</li>
+                        </ul>
+                        <button class="btn btn-primary full-width">Start Free Trial</button>
+                        <p class="trial-text">14-day free trial, no card required</p>
+                    </div>
+
+                    <!-- Enterprise Tier -->
+                    <div class="pricing-card glass">
+                        <div class="plan-header">
+                            <h3>Enterprise</h3>
+                            <div class="price">₹1,000<span>/card/yr</span></div>
+                            <p>For large campuses (2,000+ cards)</p>
+                        </div>
+                        <ul class="features-list">
+                            <li><i data-lucide="check"></i> Unlimited & Priority Support</li>
+                            <li><i data-lucide="check"></i> Hostel & Library Mgmt</li>
+                            <li><i data-lucide="check"></i> Advanced Analytics</li>
+                            <li><i data-lucide="check"></i> Custom API Access</li>
+                            <li><i data-lucide="check"></i> Dedicated Account Manager</li>
+                        </ul>
+                        <button class="btn btn-outline full-width">Contact Sales</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container glass cta-container">
+                <div class="cta-content">
+                    <h2>Ready to digitize your campus?</h2>
+                    <p>Join 500+ institutions using AI-ID Global today.</p>
+                    <button class="btn btn-white btn-lg">Book a Free Demo</button>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="logo">
+                        <i data-lucide="scan-face"></i>
+                        <span>AI-ID Global</span>
+                    </a>
+                    <p>The smartest way to manage institutional identity and operations.</p>
+                    <div class="socials">
+                        <a href="#"><i data-lucide="twitter"></i></a>
+                        <a href="#"><i data-lucide="linkedin"></i></a>
+                        <a href="#"><i data-lucide="instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <a href="#">Features</a>
+                    <a href="#">Pricing</a>
+                    <a href="#">Hardware</a>
+                    <a href="#">API</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Legal</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <p>123 Innovation Drive<br>Tech City, Mumbai 400001</p>
+                    <p>support@ai-id.global</p>
+                </div>
+            </div>
+            <div class="container footer-bottom">
+                <p>&copy; 2026 AI-ID Global. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ================= APP/LOGIN ADMIN SECTION ================= -->
+    <div id="app-view" class="hidden-section bg-gradient-to-br from-slate-100 to-slate-300">
+        <div id="root"></div>
+    </div>
+
+
+    <!-- ================= SCRIPTS ================= -->
+    <!-- Home Script -->
+    <!-- Home Script & Navigation -->
+    <script>
+        // --- script.js Content ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Scroll Effect for Navbar
+            const navbar = document.querySelector('.navbar');
+
+            if (navbar) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) {
+                        navbar.style.background = 'rgba(15, 23, 42, 0.8)';
+                        navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+                    } else {
+                        navbar.style.background = 'rgba(255, 255, 255, 0.03)';
+                        navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.1)';
+                    }
+                });
+            }
+
+            // Simple Mobile Menu Toggle
+            const mobileBtn = document.querySelector('.mobile-toggle');
+            if (mobileBtn) {
+                mobileBtn.addEventListener('click', () => {
+                    console.log('Mobile menu clicked');
+                });
+            }
+
+            // Add 3D tilt effect to feature cards
+            const cards = document.querySelectorAll('.feature-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    card.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.1), rgba(255,255,255,0.03))`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.background = 'rgba(255, 255, 255, 0.03)';
+                });
+            });
+
+            // Icon init
+            if (window.lucide) window.lucide.createIcons();
+        });
+
+        // --- Navigation Logic ---
+        function showSection(sectionId) {
+            // Hide all potential sections
+            document.getElementById('home-view').classList.add('hidden-section');
+            document.getElementById('app-view').classList.add('hidden-section');
+
+            // Show target
+            const target = document.getElementById(sectionId);
+            if (target) {
+                target.classList.remove('hidden-section');
+
+                // Re-trigger Lucide icons for the app view specifically
+                if (window.lucide) window.lucide.createIcons();
+
+                // Scroll to top
+                window.scrollTo(0, 0);
+            } else {
+                console.error("Section not found:", sectionId);
+            }
+        }
+    </script>
+    // Initialize icons on load
+    document.addEventListener('DOMContentLoaded', () => {
+    if (window.lucide) window.lucide.createIcons();
+    });
+    </script>
+
+    <!-- React App Script -->
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { User, Lock, Users, PlusCircle, LayoutDashboard, LogOut, Save, Search, Table, Eye } = lucide || {};
+
+        // --- CONFIGURATION ---
+        const API_URL = "https://script.google.com/macros/s/AKfycbwofVIxLyYvvUavg8mAO0kymQylZSWiEEUVbw2INjUCtNtIidF4ABnbt-OJmzx01oI/exec";
+
+        // --- MOCK DATA ---
+        const MOCK_DEPARTMENTS = ["HR", "Engineering", "Sales", "Marketing", "Finance"];
+        const MOCK_DESIGNATIONS = ["Manager", "Lead", "Senior", "Junior", "Intern"];
+
+        // 1. LOGIN PAGE COMPONENT
+        const LoginPage = ({ onLogin }) => {
+            const [role, setRole] = useState('admin'); // admin or client
+            const [credentials, setCredentials] = useState({ username: '', password: '' });
+
+            const handleChange = (e) => {
+                setCredentials({ ...credentials, [e.target.name]: e.target.value });
+            };
+
+            const handleLogin = (e) => {
+                e.preventDefault();
+
+                // [Requirement 2] Admin Validation
+                if (role === 'admin') {
+                    if (credentials.username === "ADMIN" && credentials.password === "123456") {
+                        alert("Login Successful! Welcome Admin.");
+                        onLogin(role);
+                    } else {
+                        alert("Invalid Credentials. Please use Username: ADMIN and Password: 123456");
+                    }
+                } else {
+                    // Client Login (Pass through for now)
+                    onLogin(role);
+                }
+            };
+
+            return (
+                <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4">
+                    <div className="glass-react bg-white/90 p-8 rounded-2xl shadow-2xl w-full max-w-md transform transition-all hover:scale-[1.01]">
+                        <div className="text-center mb-8">
+                            <h1 className="text-3xl font-bold text-gray-800 tracking-tight">Welcome Back</h1>
+                            <p className="text-gray-500 mt-2">Sign in to your dashboard</p>
+                        </div>
+
+                        <div className="flex bg-gray-100 p-1 rounded-lg mb-6">
+                            <button
+                                type="button"
+                                className={`flex-1 py-2 rounded-md text-sm font-medium transition-all ${role === 'admin' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
+                                onClick={() => setRole('admin')}
+                            >
+                                Admin
+                            </button>
+                            <button
+                                type="button"
+                                className={`flex-1 py-2 rounded-md text-sm font-medium transition-all ${role === 'client' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
+                                onClick={() => setRole('client')}
+                            >
+                                Client
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleLogin} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                                <div className="relative">
+                                    <span className="absolute left-3 top-3 text-gray-400"><i data-lucide="user"></i></span>
+                                    <input
+                                        type="text"
+                                        name="username"
+                                        value={credentials.username}
+                                        onChange={handleChange}
+                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-black bg-white"
+                                        placeholder="Enter username"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                                <div className="relative">
+                                    <span className="absolute left-3 top-3 text-gray-400"><i data-lucide="lock"></i></span>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        value={credentials.password}
+                                        onChange={handleChange}
+                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-black bg-white"
+                                        placeholder="••••••••"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform active:scale-95">
+                                Login as {role === 'admin' ? 'Admin' : 'Client'}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            );
+        };
+
+        // 2. DASHBOARD COMPONENT
+        const Dashboard = ({ userRole, onLogout }) => {
+            const [activeTab, setActiveTab] = useState('add-employee'); // add-employee, add-client, list
+
+            useEffect(() => {
+                if (window.lucide) window.lucide.createIcons();
+            }, [activeTab]);
+
+            return (
+                <div className="flex h-screen bg-gray-50 overflow-hidden">
+                    {/* Sidebar */}
+                    <aside className="w-64 bg-white border-r border-gray-200 flex flex-col z-10 text-left">
+                        <div className="p-6 border-b border-gray-100">
+                            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Company<span className="font-light text-gray-600">Hub</span></h2>
+                        </div>
+
+                        <nav className="flex-1 p-4 space-y-2">
+                            <SidebarItem
+                                icon="plus-circle"
+                                label="Add Employee"
+                                active={activeTab === 'add-employee'}
+                                onClick={() => setActiveTab('add-employee')}
+                            />
+                            <SidebarItem
+                                icon="users"
+                                label="Add Client"
+                                active={activeTab === 'add-client'}
+                                onClick={() => setActiveTab('add-client')}
+                            />
+                            <div className="pt-4 pb-2">
+                                <p className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Data</p>
+                            </div>
+                            <SidebarItem
+                                icon="table"
+                                label="Employee List"
+                                active={activeTab === 'list'}
+                                onClick={() => setActiveTab('list')}
+                            />
+                        </nav>
+
+                        <div className="p-4 border-t border-gray-100">
+                            <button onClick={onLogout} className="flex items-center space-x-3 w-full px-4 py-2 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors">
+                                <i data-lucide="log-out" className="w-5 h-5"></i>
+                                <span>Logout</span>
+                            </button>
+                        </div>
+                    </aside>
+
+                    {/* Main Content */}
+                    <main className="flex-1 overflow-y-auto p-8 relative text-left">
+                        <div className="max-w-7xl mx-auto">
+                            {activeTab === 'add-employee' && <AddEmployeeForm />}
+                            {activeTab === 'add-client' && <div className="text-center text-gray-500 mt-20 text-xl">Not implemented in this demo</div>}
+                            {activeTab === 'list' && <EmployeeList />}
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const SidebarItem = ({ icon, label, active, onClick }) => (
+            <button
+                type="button"
+                onClick={onClick}
+                className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg transition-all duration-200 ${active ? 'bg-indigo-50 text-indigo-700 shadow-sm font-medium' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`}
+            >
+                <i data-lucide={icon} className={`w-5 h-5 ${active ? 'text-indigo-600' : 'text-gray-400'}`}></i>
+                <span>{label}</span>
+            </button>
+        );
+
+        // 3. ADD EMPLOYEE FORM
+        const AddEmployeeForm = () => {
+            const [loading, setLoading] = useState(false);
+            const [formData, setFormData] = useState({
+                EmployeeID: '', BiometricID: '', Salute: 'Mr', FirstName: '', MiddleName: '', LastName: '', ShortName: '', Gender: 'Male',
+                WorkEmail: '', MobileNumber: '',
+                Status: 'Active', EmployeeType: 'Full-Time', Department: '', Designation: '', UserType: 'User', Location: '',
+                DateOfJoining: '', ReportingTo: '',
+                IsAdmin: 'No', IsApprover: 'No',
+                LoginBasedOn: 'Email', PasswordChangeRequired: false
+            });
+
+            const handleChange = (e) => {
+                const { name, value, type, checked } = e.target;
+                setFormData(prev => ({
+                    ...prev,
+                    [name]: type === 'checkbox' ? checked : value
+                }));
+            };
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setLoading(true);
+
+                if (!API_URL) {
+                    alert("Please configure the API_URL in the code first!");
+                    setLoading(false);
+                    return;
+                }
+
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'ADD_EMPLOYEE', payload: formData })
+                    });
+
+                    alert("Request Sent! (Note: With Google Apps Script no-cors, check your sheet to verify)");
+                    setFormData({ ...formData, EmployeeID: '', FirstName: '', LastName: '', WorkEmail: '', MobileNumber: '' });
+                } catch (error) {
+                    alert("Error saving data: " + error.message);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            return (
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 fade-in">
+                    <div className="mb-8 border-b border-gray-100 pb-4 flex justify-between items-center">
+                        <div>
+                            <h2 className="text-2xl font-bold text-gray-800">Add New Employee</h2>
+                            <p className="text-gray-500 text-sm mt-1">Fill in the details to register a new team member.</p>
+                        </div>
+                        <div className="h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600">
+                            <i data-lucide="user-plus"></i>
+                        </div>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-8">
+                        <Section title="Identification">
+                            <Input name="EmployeeID" label="Employee ID" value={formData.EmployeeID} onChange={handleChange} required />
+                            <Input name="BiometricID" label="Biometric ID" value={formData.BiometricID} onChange={handleChange} />
+                        </Section>
+
+                        <Section title="Personal Details">
+                            <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
+                                <div className="md:col-span-1">
+                                    <Select name="Salute" label="Title" options={['Mr', 'Ms', 'Mrs', 'Dr']} value={formData.Salute} onChange={handleChange} />
+                                </div>
+                                <div className="md:col-span-2"><Input name="FirstName" label="First Name" value={formData.FirstName} onChange={handleChange} required /></div>
+                                <div className="md:col-span-1"><Input name="MiddleName" label="Middle Name" value={formData.MiddleName} onChange={handleChange} /></div>
+                                <div className="md:col-span-2"><Input name="LastName" label="Last Name" value={formData.LastName} onChange={handleChange} /></div>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                                <Input name="ShortName" label="Display Name / Short Name" value={formData.ShortName} onChange={handleChange} />
+                                <Select name="Gender" label="Gender" options={['Male', 'Female', 'Other']} value={formData.Gender} onChange={handleChange} />
+                            </div>
+                        </Section>
+
+                        <Section title="Contact Information">
+                            <Input type="email" name="WorkEmail" label="Work Email" value={formData.WorkEmail} onChange={handleChange} required />
+                            <Input type="tel" name="MobileNumber" label="Mobile Number" value={formData.MobileNumber} onChange={handleChange} required />
+                        </Section>
+
+                        <Section title="Role & Status">
+                            <Select name="Status" label="Employee Status" options={['Active', 'Inactive', 'On Leave']} value={formData.Status} onChange={handleChange} />
+                            <Select name="EmployeeType" label="Type" options={['Full-Time', 'Part-Time', 'Contract']} value={formData.EmployeeType} onChange={handleChange} />
+                            <Select name="Department" label="Department" options={['', ...MOCK_DEPARTMENTS]} value={formData.Department} onChange={handleChange} />
+                            <Select name="Designation" label="Designation" options={['', ...MOCK_DESIGNATIONS]} value={formData.Designation} onChange={handleChange} />
+                            <Select name="UserType" label="User Type" options={['User', 'System Admin', 'Manager']} value={formData.UserType} onChange={handleChange} />
+                            <Input name="Location" label="Office Location" value={formData.Location} onChange={handleChange} />
+                        </Section>
+
+                        <Section title="Timeline">
+                            <Input type="date" name="DateOfJoining" label="Date of Joining" value={formData.DateOfJoining} onChange={handleChange} />
+                            <Input name="ReportingTo" label="Reporting To (Manager Name/ID)" value={formData.ReportingTo} onChange={handleChange} />
+                        </Section>
+
+                        <Section title="Permissions">
+                            <div className="flex space-x-6">
+                                <Checkbox name="IsAdmin" label="Is Admin Staff?" checked={formData.IsAdmin === 'Yes'} onChange={(e) => handleChange({ ...e, target: { name: 'IsAdmin', value: e.target.checked ? 'Yes' : 'No' } })} />
+                                <Checkbox name="IsApprover" label="Is Approver?" checked={formData.IsApprover === 'Yes'} onChange={(e) => handleChange({ ...e, target: { name: 'IsApprover', value: e.target.checked ? 'Yes' : 'No' } })} />
+                            </div>
+                        </Section>
+
+                        <Section title="Login Credentials">
+                            <Select name="LoginBasedOn" label="Login Based On" options={['User Name', 'Email', 'Mobile No']} value={formData.LoginBasedOn} onChange={handleChange} />
+                            <div className="mt-4">
+                                <Checkbox name="PasswordChangeRequired" label="Require Password Change on First Login" checked={formData.PasswordChangeRequired} onChange={handleChange} />
+                            </div>
+                        </Section>
+
+                        <div className="pt-6 border-t border-gray-100 flex justify-end">
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className={`flex items-center space-x-2 px-8 py-3 bg-indigo-600 text-white rounded-lg shadow-lg hover:shadow-xl hover:bg-indigo-700 transition-all ${loading ? 'opacity-70 cursor-wait' : ''}`}
+                            >
+                                <i data-lucide="save" className="w-5 h-5"></i>
+                                <span>{loading ? 'Saving...' : 'Save Employee'}</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            );
+        };
+
+        // 4. EMPLOYEE LIST
+        const EmployeeList = () => {
+            const [employees, setEmployees] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [search, setSearch] = useState('');
+
+            useEffect(() => {
+                fetchData();
+            }, []);
+
+            const fetchData = async () => {
+                if (!API_URL) {
+                    setLoading(false);
+                    return;
+                }
+                try {
+                    const res = await fetch(API_URL);
+                    const json = await res.json();
+                    if (json.status === 'success') {
+                        setEmployees(json.data);
+                    }
+                } catch (err) {
+                    console.error(err);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const filtered = employees.filter(e =>
+                e.FirstName?.toLowerCase().includes(search.toLowerCase()) ||
+                e.LastName?.toLowerCase().includes(search.toLowerCase()) ||
+                e.EmployeeID?.toLowerCase().includes(search.toLowerCase())
+            );
+
+            return (
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 min-h-[500px]">
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-2xl font-bold text-gray-800">Employee Directory</h2>
+                        <div className="relative">
+                            <span className="absolute left-3 top-2.5 text-gray-400"><i data-lucide="search" className="w-5 h-5"></i></span>
+                            <input
+                                type="text"
+                                placeholder="Search..."
+                                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none w-64"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                        </div>
+                    </div>
+
+                    {loading ? (
+                        <div className="text-center py-20 text-gray-500 animate-pulse">Loading data...</div>
+                    ) : !API_URL ? (
+                        <div className="p-4 bg-yellow-50 text-yellow-700 rounded-lg">API URL not configured.</div>
+                    ) : (
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="border-b border-gray-200">
+                                        <th className="py-3 font-semibold text-gray-600">ID</th>
+                                        <th className="py-3 font-semibold text-gray-600">Name</th>
+                                        <th className="py-3 font-semibold text-gray-600">Department</th>
+                                        <th className="py-3 font-semibold text-gray-600">Designation</th>
+                                        <th className="py-3 font-semibold text-gray-600">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {filtered.length === 0 ? (
+                                        <tr><td colSpan="5" className="text-center py-10 text-gray-400">No employees found.</td></tr>
+                                    ) : (
+                                        filtered.map((emp, i) => (
+                                            <tr key={i} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                                <td className="py-3 text-indigo-600 font-medium">{emp.EmployeeID}</td>
+                                                <td className="py-3">{emp.Salute} {emp.FirstName} {emp.LastName}</td>
+                                                <td className="py-3"><span className="px-2 py-1 bg-gray-100 rounded text-xs text-gray-600">{emp.Department}</span></td>
+                                                <td className="py-3 text-gray-600">{emp.Designation}</td>
+                                                <td className="py-3">
+                                                    <span className={`px-2 py-1 rounded-full text-xs ${emp.Status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                                        {emp.Status}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // --- FORM HELPERS COMPONENT ---
+        const Section = ({ title, children }) => (
+            <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">{title}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {children}
+                </div>
+            </div>
+        );
+
+        const Input = ({ label, ...props }) => (
+            <div className="w-full">
+                <label className="block text-sm font-medium text-gray-700 mb-1">{label} {props.required && '*'}</label>
+                <input {...props} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all disabled:bg-gray-100" />
+            </div>
+        );
+
+        const Select = ({ label, options, ...props }) => (
+            <div className="w-full">
+                <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+                <select {...props} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all">
+                    {options.map(o => <option key={o} value={o}>{o}</option>)}
+                </select>
+            </div>
+        );
+
+        const Checkbox = ({ label, ...props }) => (
+            <label className="flex items-center space-x-2 cursor-pointer">
+                <input type="checkbox" {...props} className="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500 border-gray-300" />
+                <span className="text-sm text-gray-700 select-none">{label}</span>
+            </label>
+        );
+
+        // --- MAIN APP WRAPPER ---
+        const App = () => {
+            const [view, setView] = useState('login'); // login, dashboard
+            const [userRole, setUserRole] = useState(null);
+
+            useEffect(() => {
+                if (window.lucide) window.lucide.createIcons();
+            }, [view]);
+
+            const handleLogin = (role) => {
+                setUserRole(role);
+                setView('dashboard');
+                // Scroll top on login
+                window.scrollTo(0, 0);
+            };
+
+            const handleLogout = () => {
+                setUserRole(null);
+                setView('login');
+
+                // Allow user to go BACK to home page from login? 
+                // Currently defaults to Login page when logged out.
+                // To go completely back to Home, we'd need a "Back to Home" button.
+            };
+
+            if (view === 'login') return (
+                <div>
+                    <div className="absolute top-4 left-4 z-50">
+                        <button onClick={() => {
+                            // Manual switch back to home via DOM (dirty but works for mix mode)
+                            showSection('home-view');
+                        }} className="bg-white/50 hover:bg-white text-gray-800 px-4 py-2 rounded-lg backdrop-blur-sm text-sm font-medium transition-all">
+                            ← Back to Home
+                        </button>
+                    </div>
+                    <LoginPage onLogin={handleLogin} />
+                </div >
+            );
+            return <Dashboard userRole={userRole} onLogout={handleLogout} />;
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Business Management</title>
+
+    <!-- React & DOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Same:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .glass-dark {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#10B981',
+                        dark: '#111827',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gradient-to-br from-slate-100 to-slate-300 min-h-screen">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { User, Lock, Users, PlusCircle, LayoutDashboard, LogOut, Save, Search, Table, Eye } = lucide;
+
+        // --- CONFIGURATION ---
+        // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
+        const API_URL = "https://script.google.com/macros/s/AKfycbwofVIxLyYvvUavg8mAO0kymQylZSWiEEUVbw2INjUCtNtIidF4ABnbt-OJmzx01oI/exec";
+
+        // --- MOCK DATA / UTILS ---
+        const MOCK_DEPARTMENTS = ["HR", "Engineering", "Sales", "Marketing", "Finance"];
+        const MOCK_DESIGNATIONS = ["Manager", "Lead", "Senior", "Junior", "Intern"];
+
+        // --- COMPONENTS ---
+
+        // 1. LOGIN PAGE
+        const LoginPage = ({ onLogin }) => {
+            const [role, setRole] = useState('admin'); // admin or client
+
+            const handleLogin = (e) => {
+                e.preventDefault();
+                onLogin(role);
+            };
+
+            return (
+                <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4">
+                    <div className="glass bg-white/90 p-8 rounded-2xl shadow-2xl w-full max-w-md transform transition-all hover:scale-[1.01]">
+                        <div className="text-center mb-8">
+                            <h1 className="text-3xl font-bold text-gray-800 tracking-tight">Welcome Back</h1>
+                            <p className="text-gray-500 mt-2">Sign in to your dashboard</p>
+                        </div>
+
+                        <div className="flex bg-gray-100 p-1 rounded-lg mb-6">
+                            <button
+                                className={`flex-1 py-2 rounded-md text-sm font-medium transition-all ${role === 'admin' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
+                                onClick={() => setRole('admin')}
+                            >
+                                Admin
+                            </button>
+                            <button
+                                className={`flex-1 py-2 rounded-md text-sm font-medium transition-all ${role === 'client' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
+                                onClick={() => setRole('client')}
+                            >
+                                Client
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleLogin} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                                <div className="relative">
+                                    <span className="absolute left-3 top-3 text-gray-400"><i data-lucide="user"></i></span>
+                                    <input type="text" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all" placeholder="Enter username" required />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                                <div className="relative">
+                                    <span className="absolute left-3 top-3 text-gray-400"><i data-lucide="lock"></i></span>
+                                    <input type="password" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all" placeholder="••••••••" required />
+                                </div>
+                            </div>
+                            <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform active:scale-95">
+                                Login as {role === 'admin' ? 'Admin' : 'Client'}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            );
+        };
+
+        // 2. DASHBOARD
+        const Dashboard = ({ userRole, onLogout }) => {
+            const [activeTab, setActiveTab] = useState('add-employee'); // add-employee, add-client, list
+
+            useEffect(() => {
+                lucide.createIcons();
+            }, [activeTab]);
+
+            return (
+                <div className="flex h-screen bg-gray-50 overflow-hidden">
+                    {/* Sidebar */}
+                    <aside className="w-64 bg-white border-r border-gray-200 flex flex-col z-10">
+                        <div className="p-6 border-b border-gray-100">
+                            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Company<span className="font-light text-gray-600">Hub</span></h2>
+                        </div>
+
+                        <nav className="flex-1 p-4 space-y-2">
+                            <SidebarItem
+                                icon="plus-circle"
+                                label="Add Employee"
+                                active={activeTab === 'add-employee'}
+                                onClick={() => setActiveTab('add-employee')}
+                            />
+                            <SidebarItem
+                                icon="users"
+                                label="Add Client"
+                                active={activeTab === 'add-client'}
+                                onClick={() => setActiveTab('add-client')}
+                            />
+                            <div className="pt-4 pb-2">
+                                <p className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Data</p>
+                            </div>
+                            <SidebarItem
+                                icon="table"
+                                label="Employee List"
+                                active={activeTab === 'list'}
+                                onClick={() => setActiveTab('list')}
+                            />
+                        </nav>
+
+                        <div className="p-4 border-t border-gray-100">
+                            <button onClick={onLogout} className="flex items-center space-x-3 w-full px-4 py-2 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors">
+                                <i data-lucide="log-out" className="w-5 h-5"></i>
+                                <span>Logout</span>
+                            </button>
+                        </div>
+                    </aside>
+
+                    {/* Main Content */}
+                    <main className="flex-1 overflow-y-auto p-8 relative">
+                        <div className="max-w-7xl mx-auto">
+                            {activeTab === 'add-employee' && <AddEmployeeForm />}
+                            {activeTab === 'add-client' && <div className="text-center text-gray-500 mt-20 text-xl">Not implemented in this demo</div>}
+                            {activeTab === 'list' && <EmployeeList />}
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const SidebarItem = ({ icon, label, active, onClick }) => (
+            <button
+                onClick={onClick}
+                className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg transition-all duration-200 ${active ? 'bg-indigo-50 text-indigo-700 shadow-sm font-medium' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`}
+            >
+                <i data-lucide={icon} className={`w-5 h-5 ${active ? 'text-indigo-600' : 'text-gray-400'}`}></i>
+                <span>{label}</span>
+            </button>
+        );
+
+        // 3. ADD EMPLOYEE FORM
+        const AddEmployeeForm = () => {
+            const [loading, setLoading] = useState(false);
+            const [formData, setFormData] = useState({
+                EmployeeID: '', BiometricID: '', Salute: 'Mr', FirstName: '', MiddleName: '', LastName: '', ShortName: '', Gender: 'Male',
+                WorkEmail: '', MobileNumber: '',
+                Status: 'Active', EmployeeType: 'Full-Time', Department: '', Designation: '', UserType: 'User', Location: '',
+                DateOfJoining: '', ReportingTo: '',
+                IsAdmin: 'No', IsApprover: 'No',
+                LoginBasedOn: 'Email', PasswordChangeRequired: false
+            });
+
+            const handleChange = (e) => {
+                const { name, value, type, checked } = e.target;
+                setFormData(prev => ({
+                    ...prev,
+                    [name]: type === 'checkbox' ? checked : value
+                }));
+            };
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setLoading(true);
+
+                if (!API_URL) {
+                    alert("Please configure the API_URL in the code first!");
+                    setLoading(false);
+                    return;
+                }
+
+                try {
+                    // Send as POST to Google Script
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        mode: 'no-cors', // Important for Google Apps Script Simple Requests
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'ADD_EMPLOYEE', payload: formData })
+                    });
+
+                    // Since 'no-cors' mode is opaque, we verify success by optimistic UI or additional GET.
+                    // In production with CORS, we would check response.
+                    alert("Request Sent! (Note: With Google Apps Script no-cors, check your sheet to verify)");
+
+                    // Reset form
+                    setFormData({ ...formData, EmployeeID: '', FirstName: '', LastName: '', WorkEmail: '', MobileNumber: '' });
+
+                } catch (error) {
+                    alert("Error saving data: " + error.message);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            return (
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 fade-in">
+                    <div className="mb-8 border-b border-gray-100 pb-4 flex justify-between items-center">
+                        <div>
+                            <h2 className="text-2xl font-bold text-gray-800">Add New Employee</h2>
+                            <p className="text-gray-500 text-sm mt-1">Fill in the details to register a new team member.</p>
+                        </div>
+                        <div className="h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600">
+                            <i data-lucide="user-plus"></i>
+                        </div>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-8">
+                        {/* Section 1: ID Info */}
+                        <Section title="Identification">
+                            <Input name="EmployeeID" label="Employee ID" value={formData.EmployeeID} onChange={handleChange} required />
+                            <Input name="BiometricID" label="Biometric ID" value={formData.BiometricID} onChange={handleChange} />
+                        </Section>
+
+                        {/* Section 2: Personal */}
+                        <Section title="Personal Details">
+                            <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
+                                <div className="md:col-span-1">
+                                    <Select name="Salute" label="Title" options={['Mr', 'Ms', 'Mrs', 'Dr']} value={formData.Salute} onChange={handleChange} />
+                                </div>
+                                <div className="md:col-span-2"><Input name="FirstName" label="First Name" value={formData.FirstName} onChange={handleChange} required /></div>
+                                <div className="md:col-span-1"><Input name="MiddleName" label="Middle Name" value={formData.MiddleName} onChange={handleChange} /></div>
+                                <div className="md:col-span-2"><Input name="LastName" label="Last Name" value={formData.LastName} onChange={handleChange} /></div>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                                <Input name="ShortName" label="Display Name / Short Name" value={formData.ShortName} onChange={handleChange} />
+                                <Select name="Gender" label="Gender" options={['Male', 'Female', 'Other']} value={formData.Gender} onChange={handleChange} />
+                            </div>
+                        </Section>
+
+                        {/* Section 3: Contact */}
+                        <Section title="Contact Information">
+                            <Input type="email" name="WorkEmail" label="Work Email" value={formData.WorkEmail} onChange={handleChange} required />
+                            <Input type="tel" name="MobileNumber" label="Mobile Number" value={formData.MobileNumber} onChange={handleChange} required />
+                        </Section>
+
+                        {/* Section 4: Role */}
+                        <Section title="Role & Status">
+                            <Select name="Status" label="Employee Status" options={['Active', 'Inactive', 'On Leave']} value={formData.Status} onChange={handleChange} />
+                            <Select name="EmployeeType" label="Type" options={['Full-Time', 'Part-Time', 'Contract']} value={formData.EmployeeType} onChange={handleChange} />
+                            <Select name="Department" label="Department" options={['', ...MOCK_DEPARTMENTS]} value={formData.Department} onChange={handleChange} />
+                            <Select name="Designation" label="Designation" options={['', ...MOCK_DESIGNATIONS]} value={formData.Designation} onChange={handleChange} />
+                            <Select name="UserType" label="User Type" options={['User', 'System Admin', 'Manager']} value={formData.UserType} onChange={handleChange} />
+                            <Input name="Location" label="Office Location" value={formData.Location} onChange={handleChange} />
+                        </Section>
+
+                        {/* Section 5: Dates */}
+                        <Section title="Timeline">
+                            <Input type="date" name="DateOfJoining" label="Date of Joining" value={formData.DateOfJoining} onChange={handleChange} />
+                            <Input name="ReportingTo" label="Reporting To (Manager Name/ID)" value={formData.ReportingTo} onChange={handleChange} />
+                        </Section>
+
+                        {/* Section 6: Permissions */}
+                        <Section title="Permissions">
+                            <div className="flex space-x-6">
+                                <Checkbox name="IsAdmin" label="Is Admin Staff?" checked={formData.IsAdmin === 'Yes'} onChange={(e) => handleChange({ ...e, target: { name: 'IsAdmin', value: e.target.checked ? 'Yes' : 'No' } })} />
+                                <Checkbox name="IsApprover" label="Is Approver?" checked={formData.IsApprover === 'Yes'} onChange={(e) => handleChange({ ...e, target: { name: 'IsApprover', value: e.target.checked ? 'Yes' : 'No' } })} />
+                            </div>
+                        </Section>
+
+                        {/* Section 7: Login */}
+                        <Section title="Login Credentials">
+                            <Select name="LoginBasedOn" label="Login Based On" options={['User Name', 'Email', 'Mobile No']} value={formData.LoginBasedOn} onChange={handleChange} />
+                            <div className="mt-4">
+                                <Checkbox name="PasswordChangeRequired" label="Require Password Change on First Login" checked={formData.PasswordChangeRequired} onChange={handleChange} />
+                            </div>
+                        </Section>
+
+                        <div className="pt-6 border-t border-gray-100 flex justify-end">
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className={`flex items-center space-x-2 px-8 py-3 bg-indigo-600 text-white rounded-lg shadow-lg hover:shadow-xl hover:bg-indigo-700 transition-all ${loading ? 'opacity-70 cursor-wait' : ''}`}
+                            >
+                                <i data-lucide="save" className="w-5 h-5"></i>
+                                <span>{loading ? 'Saving...' : 'Save Employee'}</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            );
+        };
+
+        // 4. EMPLOYEE LIST
+        const EmployeeList = () => {
+            const [employees, setEmployees] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [search, setSearch] = useState('');
+
+            useEffect(() => {
+                fetchData();
+            }, []);
+
+            const fetchData = async () => {
+                if (!API_URL) {
+                    setLoading(false);
+                    return;
+                }
+
+                try {
+                    const res = await fetch(API_URL);
+                    const json = await res.json();
+                    if (json.status === 'success') {
+                        setEmployees(json.data);
+                    }
+                } catch (err) {
+                    console.error(err);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const filtered = employees.filter(e =>
+                e.FirstName?.toLowerCase().includes(search.toLowerCase()) ||
+                e.LastName?.toLowerCase().includes(search.toLowerCase()) ||
+                e.EmployeeID?.toLowerCase().includes(search.toLowerCase())
+            );
+
+            return (
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 min-h-[500px]">
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-2xl font-bold text-gray-800">Employee Directory</h2>
+                        <div className="relative">
+                            <span className="absolute left-3 top-2.5 text-gray-400"><i data-lucide="search" className="w-5 h-5"></i></span>
+                            <input
+                                type="text"
+                                placeholder="Search..."
+                                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none w-64"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                        </div>
+                    </div>
+
+                    {loading ? (
+                        <div className="text-center py-20 text-gray-500 animate-pulse">Loading data...</div>
+                    ) : !API_URL ? (
+                        <div className="p-4 bg-yellow-50 text-yellow-700 rounded-lg">API URL not configured. Please set the API_URL variable in strict code.</div>
+                    ) : (
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="border-b border-gray-200">
+                                        <th className="py-3 font-semibold text-gray-600">ID</th>
+                                        <th className="py-3 font-semibold text-gray-600">Name</th>
+                                        <th className="py-3 font-semibold text-gray-600">Department</th>
+                                        <th className="py-3 font-semibold text-gray-600">Designation</th>
+                                        <th className="py-3 font-semibold text-gray-600">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {filtered.length === 0 ? (
+                                        <tr><td colSpan="5" className="text-center py-10 text-gray-400">No employees found.</td></tr>
+                                    ) : (
+                                        filtered.map((emp, i) => (
+                                            <tr key={i} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                                <td className="py-3 text-indigo-600 font-medium">{emp.EmployeeID}</td>
+                                                <td className="py-3">{emp.Salute} {emp.FirstName} {emp.LastName}</td>
+                                                <td className="py-3"><span className="px-2 py-1 bg-gray-100 rounded text-xs text-gray-600">{emp.Department}</span></td>
+                                                <td className="py-3 text-gray-600">{emp.Designation}</td>
+                                                <td className="py-3">
+                                                    <span className={`px-2 py-1 rounded-full text-xs ${emp.Status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                                        {emp.Status}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // --- FORM HELPERS ---
+        const Section = ({ title, children }) => (
+            <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">{title}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {children}
+                </div>
+            </div>
+        );
+
+        const Input = ({ label, ...props }) => (
+            <div className="w-full">
+                <label className="block text-sm font-medium text-gray-700 mb-1">{label} {props.required && '*'}</label>
+                <input {...props} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all disabled:bg-gray-100" />
+            </div>
+        );
+
+        const Select = ({ label, options, ...props }) => (
+            <div className="w-full">
+                <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+                <select {...props} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all">
+                    {options.map(o => <option key={o} value={o}>{o}</option>)}
+                </select>
+            </div>
+        );
+
+        const Checkbox = ({ label, ...props }) => (
+            <label className="flex items-center space-x-2 cursor-pointer">
+                <input type="checkbox" {...props} className="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500 border-gray-300" />
+                <span className="text-sm text-gray-700 select-none">{label}</span>
+            </label>
+        );
+
+        // --- MAIN APP ---
+        const App = () => {
+            const [view, setView] = useState('login'); // login, dashboard
+            const [userRole, setUserRole] = useState(null);
+
+            useEffect(() => {
+                // Re-run icons when view changes
+                setTimeout(() => lucide.createIcons(), 100);
+            }, [view]);
+
+            const handleLogin = (role) => {
+                setUserRole(role);
+                setView('dashboard');
+            };
+
+            const handleLogout = () => {
+                setUserRole(null);
+                setView('login');
+            };
+
+            if (view === 'login') return <LoginPage onLogin={handleLogin} />;
+            return <Dashboard userRole={userRole} onLogout={handleLogout} />;
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+
+</body>
+
+</html>
