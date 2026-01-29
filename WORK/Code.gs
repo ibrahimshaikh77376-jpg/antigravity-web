@@ -14,6 +14,11 @@
 const SHEET_ID = ""; // Optional: If script is bound to sheet, leave empty. If standalone, paste Sheet ID here.
 
 function doGet(e) {
+  // Handle manual execution or missing parameters
+  if (!e || !e.parameter) {
+    return ContentService.createTextOutput("Script is active. Note: You cannot run this function directly from the editor because 'e' is undefined. Deploy as Web App to test.");
+  }
+
   // Check if it's an API call for reading data
   if (e.parameter.action) {
     return handleApiRequest(e);
@@ -24,6 +29,7 @@ function doGet(e) {
 }
 
 function doPost(e) {
+   if (!e) return ContentService.createTextOutput("Error: No event object.");
    return handleApiRequest(e);
 }
 
@@ -79,7 +85,21 @@ function handleApiRequest(e) {
 
 // Database Helper
 function getSheetByName(name) {
-  const ss = SHEET_ID ? SpreadsheetApp.openById(SHEET_ID) : SpreadsheetApp.getActiveSpreadsheet();
+  let ss;
+  if (SHEET_ID) {
+    try {
+      ss = SpreadsheetApp.openById(SHEET_ID);
+    } catch (e) {
+      throw new Error(`Invalid SHEET_ID provided: ${SHEET_ID}. Please check the ID.`);
+    }
+  } else {
+    ss = SpreadsheetApp.getActiveSpreadsheet();
+  }
+
+  if (!ss) {
+    throw new Error("Spreadsheet Error: Script is not connected to a Sheet. Since you created a standalone script, you MUST copy your Spreadsheet ID (from its URL) and paste it into the 'SHEET_ID' variable at the top of this script.");
+  }
+
   let sheet = ss.getSheetByName(name);
   if (!sheet) {
     sheet = ss.insertSheet(name);

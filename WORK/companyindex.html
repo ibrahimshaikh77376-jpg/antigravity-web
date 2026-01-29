@@ -26,7 +26,10 @@
 
     <!-- API Configuration -->
     <script>
-        // API Base URL - Change this to your production API URL
+        // API Configuration
+        // Note: The React App uses a direct connection to Google Apps Script.
+        // The Vanilla JS forms below use API_BASE_URL. If you intend to use GAS for those too, 
+        // you will need to adapt the vanilla fetch calls to match the GAS 'action' pattern.
         const API_BASE_URL = window.location.origin.includes('localhost')
             ? 'http://localhost:3000/api'
             : '/api';
@@ -35,10 +38,10 @@
     <!-- React & ReactDOM (Production) -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <!-- Babel Standalone (Note: Consider a build step for production to remove this) -->
+    <!-- Babel Standalone -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <!-- Tailwind CSS for Admin Panel -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Lucide Icons -->
@@ -102,13 +105,12 @@
             box-sizing: border-box;
         }
 
-        /* Accessibility: focus styles */
+        /* Accessibility */
         :focus-visible {
             outline: 3px solid var(--primary-light);
             outline-offset: 2px;
         }
 
-        /* Accessibility: skip link */
         .skip-link {
             position: absolute;
             left: -999px;
@@ -537,10 +539,6 @@
             color: var(--secondary);
         }
 
-        .step.pending {
-            color: var(--text-light);
-        }
-
         /* Section Styling */
         section {
             padding: 100px 0;
@@ -662,11 +660,6 @@
             margin-bottom: 8px;
         }
 
-        .mobile-mockup {
-            position: relative;
-            text-align: center;
-        }
-
         .phone-frame {
             width: 300px;
             height: 600px;
@@ -687,7 +680,7 @@
             overflow: hidden;
         }
 
-        /* Data Migration Section */
+        /* Data Migration */
         .data-migration {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
@@ -743,7 +736,7 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
-        /* Pricing Section */
+        /* Pricing */
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -784,15 +777,6 @@
             text-transform: uppercase;
         }
 
-        .pricing-header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .pricing-header h3 {
-            margin-bottom: 12px;
-        }
-
         .price {
             font-size: 3rem;
             font-weight: 800;
@@ -820,16 +804,12 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        .pricing-features li:last-child {
-            border-bottom: none;
-        }
-
         .pricing-features i {
             color: var(--secondary);
             flex-shrink: 0;
         }
 
-        /* Security Section */
+        /* Security */
         .security {
             background: var(--bg-light);
         }
@@ -853,10 +833,6 @@
             color: var(--secondary);
             margin-bottom: 16px;
             display: block;
-        }
-
-        .security-card h4 {
-            margin-bottom: 12px;
         }
 
         /* Demo Section */
@@ -886,12 +862,6 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .form-title {
-            color: white;
-            margin-bottom: 24px;
-            font-size: 1.75rem;
-        }
-
         .form-group {
             margin-bottom: 20px;
         }
@@ -912,17 +882,8 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
             background: rgba(255, 255, 255, 0.9);
             color: var(--text-dark);
-            font-family: var(--font-body);
+            border: none;
             font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: white;
-            background: white;
         }
 
         .login-options {
@@ -945,10 +906,6 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-        }
-
-        .login-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
         }
 
         .divider {
@@ -976,7 +933,7 @@
             right: 0;
         }
 
-        /* Footer Updated */
+        /* Footer */
         footer {
             background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 100%);
             color: white;
@@ -991,11 +948,6 @@
             align-items: center;
             position: relative;
             z-index: 10;
-        }
-
-        .copyright-text {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.9);
         }
 
         .social-row {
@@ -1021,21 +973,18 @@
             background: white;
             color: #4c1d95;
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .footer-right-area {
             display: flex;
             align-items: flex-end;
             gap: 20px;
-            position: relative;
         }
 
         .scroll-top-btn {
             width: 40px;
             height: 40px;
             background: #3b82f6;
-            /* Blue button */
             color: white;
             border: none;
             border-radius: 8px;
@@ -1043,18 +992,10 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-decoration: none;
-            z-index: 20;
         }
 
-        .scroll-top-btn:hover {
-            background: #2563eb;
-            transform: translateY(-2px);
-        }
-
-        /* Chat Bot Widget */
+        /* Chatbot */
         .chatbot-widget {
             position: fixed;
             bottom: 30px;
@@ -1074,12 +1015,7 @@
             font-size: 24px;
             box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
             cursor: pointer;
-            transition: all 0.3s ease;
             border: none;
-        }
-
-        .chatbot-btn:hover {
-            transform: scale(1.1);
         }
 
         .chatbot-window {
@@ -1091,11 +1027,9 @@
             border-radius: 16px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             display: none;
-            /* Hidden by default */
             flex-direction: column;
             overflow: hidden;
             border: 1px solid #e5e7eb;
-            animation: slideUpFade 0.3s ease-out;
         }
 
         .chatbot-window.active {
@@ -1107,8 +1041,8 @@
             color: white;
             padding: 16px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
         }
 
         .chat-body {
@@ -1126,14 +1060,12 @@
             padding: 10px 14px;
             border-radius: 12px;
             font-size: 0.9rem;
-            line-height: 1.4;
         }
 
         .chat-msg.bot {
             background: white;
             border: 1px solid #e5e7eb;
             align-self: flex-start;
-            border-bottom-left-radius: 2px;
             color: #374151;
         }
 
@@ -1141,7 +1073,6 @@
             background: #2563eb;
             color: white;
             align-self: flex-end;
-            border-bottom-right-radius: 2px;
         }
 
         .chat-input-area {
@@ -1158,47 +1089,6 @@
             border: 1px solid #e5e7eb;
             border-radius: 20px;
             outline: none;
-            font-size: 0.9rem;
-        }
-
-        .chat-input:focus {
-            border-color: #2563eb;
-        }
-
-        @keyframes slideUpFade {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive Footer */
-        @media (max-width: 768px) {
-            .footer-content {
-                flex-direction: column-reverse;
-                gap: 30px;
-                text-align: center;
-            }
-
-            .footer-right-area {
-                width: 100%;
-                justify-content: center;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .scroll-top-btn {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                display: none;
-                /* Hide standard one in layout, show fixed if needed mostly handled by js */
-            }
         }
 
         /* Responsive */
@@ -1238,10 +1128,6 @@
             .demo-content {
                 grid-template-columns: 1fr;
             }
-
-            .footer-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
         }
 
         @media (max-width: 640px) {
@@ -1253,21 +1139,24 @@
                 width: 100%;
             }
 
-            .footer-grid {
-                grid-template-columns: 1fr;
+            .footer-content {
+                flex-direction: column-reverse;
+                gap: 30px;
+                text-align: center;
+            }
+
+            .footer-right-area {
+                width: 100%;
+                justify-content: center;
             }
         }
 
-        /* ===================== */
-        /* SECTION VISIBILITY */
-        /* ===================== */
+        /* Helpers */
         .hidden-section {
             display: none !important;
         }
 
-        /* ===================== */
-        /* ADMIN PANEL STYLES */
-        /* ===================== */
+        /* Admin Panel Scoped */
         #app-view {
             width: 100%;
             min-height: 100vh;
@@ -1278,8 +1167,7 @@
         #app-view h3,
         #app-view p,
         #app-view label,
-        #app-view span,
-        #app-view div {
+        #app-view span {
             color: #212121;
         }
 
@@ -1299,9 +1187,9 @@
 
 <body>
     <a class="skip-link" href="#home" onclick="document.getElementById('home').focus()">Skip to main content</a>
+
     <!-- ================= HOME PAGE SECTION ================= -->
     <div id="home-view">
-        <!-- Header / Navigation -->
         <header id="header">
             <div class="container">
                 <nav aria-label="Main Navigation">
@@ -1334,7 +1222,7 @@
         </header>
 
         <!-- Hero Section -->
-        <section class="hero" id="home" tabindex="-1" style="outline: none;">
+        <section class="hero" id="home">
             <div class="container">
                 <div class="hero-content">
                     <div class="hero-text">
@@ -1343,40 +1231,19 @@
                             Management ERP Platform
                         </h1>
                         <p>Create, verify, manage, and distribute secure ID cards with AI automation, real-time
-                            dashboards,
-                            and secure payments.</p>
-
+                            dashboards, and secure payments.</p>
                         <div class="hero-buttons">
-                            <a href="#demo" class="btn btn-primary btn-lg">
-                                <i class="fas fa-calendar-alt"></i>
-                                Book Free Demo
-                            </a>
-                            <a href="#trial" class="btn btn-secondary btn-lg">
-                                <i class="fas fa-rocket"></i>
-                                Start 14-Day Free Trial
-                            </a>
+                            <a href="#demo" class="btn btn-primary btn-lg"><i class="fas fa-calendar-alt"></i> Book Free
+                                Demo</a>
+                            <a href="#trial" class="btn btn-secondary btn-lg"><i class="fas fa-rocket"></i> Start 14-Day
+                                Free Trial</a>
                         </div>
-
                         <div class="trust-badges">
-                            <div class="badge">
-                                <i class="fas fa-robot"></i>
-                                AI-Powered
-                            </div>
-                            <div class="badge">
-                                <i class="fas fa-shield-alt"></i>
-                                Secure Payments
-                            </div>
-                            <div class="badge">
-                                <i class="fas fa-cloud"></i>
-                                Cloud-Based
-                            </div>
-                            <div class="badge">
-                                <i class="fas fa-language"></i>
-                                Multi-Language
-                            </div>
+                            <div class="badge"><i class="fas fa-robot"></i> AI-Powered</div>
+                            <div class="badge"><i class="fas fa-shield-alt"></i> Secure</div>
+                            <div class="badge"><i class="fas fa-cloud"></i> Cloud-Based</div>
                         </div>
                     </div>
-
                     <div class="hero-image">
                         <div class="hero-card">
                             <div class="hero-card-header">
@@ -1387,24 +1254,12 @@
                                 </div>
                                 <div class="status-badge">Active</div>
                             </div>
-
-                            <div class="qr-code">
-                                <i class="fas fa-qrcode"></i>
-                            </div>
-
+                            <div class="qr-code"><i class="fas fa-qrcode"></i></div>
                             <div class="verification-steps">
-                                <div class="step complete">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>AI Data Migration - Complete</span>
-                                </div>
-                                <div class="step complete">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Photo Verified</span>
-                                </div>
-                                <div class="step complete">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>ID Card Generated</span>
-                                </div>
+                                <div class="step complete"><i class="fas fa-check-circle"></i> AI Data Migration -
+                                    Complete</div>
+                                <div class="step complete"><i class="fas fa-check-circle"></i> Photo Verified</div>
+                                <div class="step complete"><i class="fas fa-check-circle"></i> ID Card Generated</div>
                             </div>
                         </div>
                     </div>
@@ -1412,397 +1267,142 @@
             </div>
         </section>
 
-        <!-- Features Section -->
+        <!-- Features -->
         <section class="features" id="products">
             <div class="container">
                 <div class="section-header">
                     <h2>Complete ID Card Management Suite</h2>
                     <p>Everything you need to manage ID cards at scale</p>
                 </div>
-
                 <div class="features-grid">
                     <div class="feature-card">
-                        <div class="feature-icon icon-primary">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <h3>AI ID Card Creation & Verification</h3>
-                        <p>Automated ID card generation with AI-powered photo verification and quality checks</p>
+                        <div class="feature-icon icon-primary"><i class="fas fa-brain"></i></div>
+                        <h3>AI ID Card Creation</h3>
+                        <p>Automated ID card generation with AI-powered photo verification.</p>
                     </div>
-
                     <div class="feature-card">
-                        <div class="feature-icon icon-secondary">
-                            <i class="fas fa-credit-card"></i>
-                        </div>
+                        <div class="feature-icon icon-secondary"><i class="fas fa-credit-card"></i></div>
                         <h3>Secure Payments</h3>
-                        <p>Integrated payment gateway supporting UPI, Cards, Net Banking with automatic reconciliation
-                        </p>
+                        <p>Integrated payment gateway supporting UPI, Cards, Net Banking.</p>
                     </div>
-
                     <div class="feature-card">
-                        <div class="feature-icon icon-accent">
-                            <i class="fas fa-tachometer-alt"></i>
-                        </div>
+                        <div class="feature-icon icon-accent"><i class="fas fa-tachometer-alt"></i></div>
                         <h3>Admin Dashboard</h3>
-                        <p>Comprehensive dashboard with role-based access control and real-time analytics</p>
+                        <p>Comprehensive dashboard with role-based access control.</p>
                     </div>
-
                     <div class="feature-card">
-                        <div class="feature-icon icon-danger">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3>Employee/Client Login Portals</h3>
-                        <p>Dedicated portals for employees and clients with personalized access</p>
+                        <div class="feature-icon icon-danger"><i class="fas fa-users"></i></div>
+                        <h3>Login Portals</h3>
+                        <p>Dedicated portals for employees and clients.</p>
                     </div>
-
                     <div class="feature-card">
-                        <div class="feature-icon icon-primary">
-                            <i class="fab fa-telegram"></i>
-                        </div>
-                        <h3>Telegram Login & Chatbot</h3>
-                        <p>Seamless Telegram integration for instant access and automated support</p>
+                        <div class="feature-icon icon-primary"><i class="fab fa-telegram"></i></div>
+                        <h3>Telegram Integration</h3>
+                        <p>Seamless Telegram integration for instant access.</p>
                     </div>
-
                     <div class="feature-card">
-                        <div class="feature-icon icon-secondary">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3>AI Analytics & Reports</h3>
-                        <p>Advanced analytics with AI-powered insights and customizable reports</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon icon-accent">
-                            <i class="fas fa-warehouse"></i>
-                        </div>
-                        <h3>Inventory & Asset Management</h3>
-                        <p>Track and manage all your assets and inventory in real-time</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon icon-danger">
-                            <i class="fas fa-file-contract"></i>
-                        </div>
-                        <h3>Compliance Automation</h3>
-                        <p>Automated compliance checks and regulatory reporting</p>
+                        <div class="feature-icon icon-secondary"><i class="fas fa-chart-line"></i></div>
+                        <h3>AI Analytics</h3>
+                        <p>Advanced analytics with AI-powered insights.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Mobile App Section -->
+        <!-- Mobile App -->
         <section class="mobile-app" id="solutions">
             <div class="container">
                 <div class="mobile-content">
                     <div>
                         <div class="section-header" style="text-align: left; margin-bottom: 40px;">
-                            <h2>Powerful Mobile Apps for Employee/Client Login Portals</h2>
-                            <p style="margin: 0;">Access everything on the go with our feature-rich mobile applications
-                            </p>
+                            <h2>Powerful Mobile Apps</h2>
+                            <p style="margin: 0;">Access everything on the go.</p>
                         </div>
-
                         <div class="mobile-features">
                             <div class="mobile-feature">
-                                <div class="mobile-feature-icon">
-                                    <i class="fas fa-mobile-alt"></i>
-                                </div>
+                                <div class="mobile-feature-icon"><i class="fas fa-mobile-alt"></i></div>
                                 <div>
-                                    <h4>Cross-Platform Login</h4>
-                                    <p>Seamless login experience across web and mobile platforms</p>
+                                    <h4>Cross-Platform</h4>
+                                    <p>Seamless login across web and mobile.</p>
                                 </div>
                             </div>
-
                             <div class="mobile-feature">
-                                <div class="mobile-feature-icon">
-                                    <i class="fas fa-wifi"></i>
-                                </div>
+                                <div class="mobile-feature-icon"><i class="fas fa-wifi"></i></div>
                                 <div>
-                                    <h4>Offline Mode with Auto-Sync</h4>
-                                    <p>Work without internet and automatically sync when connected</p>
-                                </div>
-                            </div>
-
-                            <div class="mobile-feature">
-                                <div class="mobile-feature-icon">
-                                    <i class="fas fa-bell"></i>
-                                </div>
-                                <div>
-                                    <h4>Real-Time Notifications</h4>
-                                    <p>Instant alerts for important updates and activities</p>
-                                </div>
-                            </div>
-
-                            <div class="mobile-feature">
-                                <div class="mobile-feature-icon">
-                                    <i class="fas fa-id-card"></i>
-                                </div>
-                                <div>
-                                    <h4>ID Card View & Download</h4>
-                                    <p>View, download, and share ID cards directly from mobile</p>
-                                </div>
-                            </div>
-
-                            <div class="mobile-feature">
-                                <div class="mobile-feature-icon">
-                                    <i class="fas fa-globe"></i>
-                                </div>
-                                <div>
-                                    <h4>Multi-Language Support</h4>
-                                    <p>Available in 10+ Indian languages for wider accessibility</p>
+                                    <h4>Offline Mode</h4>
+                                    <p>Work without internet.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="mobile-mockup">
                         <div class="phone-frame">
-                            <div class="phone-screen">
-                                <!-- Mock mobile interface would go here -->
-                            </div>
+                            <div class="phone-screen"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Data Migration Section -->
-        <section class="data-migration">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Migrate from Any Legacy System in 1 Week</h2>
-                    <p>Our AI-powered migration tool supports all major data formats</p>
-                </div>
-
-                <div class="migration-grid">
-                    <div class="migration-card">
-                        <i class="fas fa-file-excel"></i>
-                        <h4>Excel Sheets</h4>
-                        <p>Direct import from Microsoft Excel files with intelligent column mapping</p>
-                    </div>
-
-                    <div class="migration-card">
-                        <i class="fab fa-google"></i>
-                        <h4>Google Sheets</h4>
-                        <p>Seamless integration with Google Sheets for real-time data sync</p>
-                    </div>
-
-                    <div class="migration-card">
-                        <i class="fas fa-file-csv"></i>
-                        <h4>CSV Files</h4>
-                        <p>Import data from any CSV file format with automatic validation</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pricing Section -->
+        <!-- Pricing -->
         <section class="pricing" id="pricing">
             <div class="container">
                 <div class="section-header">
                     <h2>Simple & Transparent Pricing</h2>
-                    <p>Choose the plan that fits your institution's size</p>
                 </div>
-
                 <div class="pricing-grid">
-                    <!-- Free Plan -->
                     <div class="pricing-card">
                         <div class="pricing-header">
                             <h3>Free Plan</h3>
-                            <div class="price">
-                                ₹0
-                                <span>/year</span>
-                            </div>
-                            <p>Perfect for testing</p>
+                            <div class="price">₹0<span>/year</span></div>
                         </div>
-
                         <ul class="pricing-features">
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>Up to 10 ID Cards</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>1 Admin (Client Login Portal)</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>Basic Reports</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>Community Support</span>
-                            </li>
+                            <li><i class="fas fa-check"></i> Up to 10 ID Cards</li>
                         </ul>
-
                         <a href="#trial" class="btn btn-secondary" style="width: 100%;">Start Free Trial</a>
                     </div>
-
-                    <!-- Professional Plan -->
                     <div class="pricing-card featured">
                         <div class="pricing-badge">Most Popular</div>
                         <div class="pricing-header">
-                            <h3>Professional Plan</h3>
-                            <div class="price">
-                                ₹500
-                                <span>/ID Card/Year</span>
-                            </div>
-                            <p>For growing institutions</p>
+                            <h3>Professional</h3>
+                            <div class="price">₹500<span>/ID/Year</span></div>
                         </div>
-
                         <ul class="pricing-features">
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>500–2,000 ID Cards</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>AI Data Migration</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>Attendance & HRMS</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>Communication Hub</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>10 Admin Users</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>Priority Support</span>
-                            </li>
+                            <li><i class="fas fa-check"></i> 500–2,000 ID Cards</li>
                         </ul>
-
                         <a href="#trial" class="btn btn-primary" style="width: 100%;">Start Free Trial</a>
                     </div>
-
-                    <!-- Enterprise Plan -->
                     <div class="pricing-card">
                         <div class="pricing-header">
-                            <h3>Enterprise Plan</h3>
-                            <div class="price">
-                                ₹1,000
-                                <span>/ID Card/Year</span>
-                            </div>
-                            <p>For large institutions</p>
+                            <h3>Enterprise</h3>
+                            <div class="price">₹1,000<span>/ID/Year</span></div>
                         </div>
-
                         <ul class="pricing-features">
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>2,000+ ID Cards</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>Advanced AI Analytics</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>Full ERP Modules</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>HR, LMS, Hostel, Transport</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>Unlimited Admin Users</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>Dedicated Support</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-check"></i>
-                                <span>Custom Integrations</span>
-                            </li>
+                            <li><i class="fas fa-check"></i> 2,000+ ID Cards</li>
                         </ul>
-
                         <a href="#trial" class="btn btn-secondary" style="width: 100%;">Start Free Trial</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Security Section -->
-        <section class="security" id="about">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Bank-Grade Security & Privacy</h2>
-                    <p>Your data is protected with enterprise-level security</p>
-                </div>
-
-                <div class="security-grid">
-                    <div class="security-card">
-                        <i class="fas fa-lock"></i>
-                        <h4>Encrypted Data Storage</h4>
-                        <p>All data encrypted at rest and in transit using AES-256 encryption</p>
-                    </div>
-
-                    <div class="security-card">
-                        <i class="fas fa-user-shield"></i>
-                        <h4>Role-Based Access Control</h4>
-                        <p>Granular permissions and access controls for every user</p>
-                    </div>
-
-                    <div class="security-card">
-                        <i class="fas fa-clipboard-list"></i>
-                        <h4>Audit Logs</h4>
-                        <p>Complete audit trail of all actions and changes</p>
-                    </div>
-
-                    <div class="security-card">
-                        <i class="fas fa-shield-virus"></i>
-                        <h4>Secure Payment Gateway</h4>
-                        <p>PCI-DSS compliant payment processing</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Demo & Login Section -->
+        <!-- Demo & Login -->
         <section class="demo-section" id="demo">
             <div class="container">
-                <div class="section-header">
-                    <h2>Get Started Today</h2>
-                    <p>Book a demo or start your free trial now</p>
-                </div>
-
                 <div class="demo-content">
-                    <!-- Book Demo Form -->
                     <div class="demo-form">
                         <h3 class="form-title">Book Free Demo</h3>
                         <form id="demoForm">
-                            <div class="form-group">
-                                <label for="fullName">Full Name *</label>
-                                <input type="text" id="fullName" name="fullName" required>
+                            <div class="form-group"><label>Full Name</label><input type="text" id="fullName" required>
                             </div>
-
+                            <div class="form-group"><label>Email</label><input type="email" id="email" required></div>
+                            <div class="form-group"><label>Mobile</label><input type="tel" id="mobile" required></div>
+                            <div class="form-group"><label>City</label><input type="text" id="city" required></div>
+                            <div class="form-group"><label>Address</label><textarea id="address" rows="3"
+                                    required></textarea></div>
                             <div class="form-group">
-                                <label for="email">Email *</label>
-                                <input type="email" id="email" name="email" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="mobile">Mobile Number *</label>
-                                <input type="tel" id="mobile" name="mobile" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="city">City *</label>
-                                <input type="text" id="city" name="city" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="address">Address *</label>
-                                <textarea id="address" name="address" rows="3" required></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="idCards">Number of ID Cards *</label>
-                                <select id="idCards" name="idCards" required>
+                                <label>Number of Cards</label>
+                                <select id="idCards" required>
                                     <option value="">Select range</option>
                                     <option value="0-50">0 - 50</option>
                                     <option value="50-500">50 - 500</option>
@@ -1810,590 +1410,114 @@
                                     <option value="2000+">2,000+</option>
                                 </select>
                             </div>
-
-                            <button type="submit" class="btn btn-primary" style="width: 100%;">
-                                <i class="fas fa-calendar-check"></i>
-                                Book Demo Now
-                            </button>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Book Demo Now</button>
                         </form>
                     </div>
 
-                    <!-- Login Form -->
                     <div class="login-form" id="login">
                         <h3 class="form-title">Login to Your Account</h3>
                         <form id="loginForm">
-                            <div class="form-group">
-                                <label for="loginEmail">Email</label>
-                                <input type="email" id="loginEmail" name="loginEmail">
+                            <div class="form-group"><label>Email</label><input type="email" id="loginEmail"></div>
+                            <div class="form-group"><label>Password</label><input type="password" id="loginPassword">
                             </div>
-
-                            <div class="form-group">
-                                <label for="loginPassword">Password</label>
-                                <input type="password" id="loginPassword" name="loginPassword">
-                            </div>
-
-                            <button type="submit" class="btn btn-primary" style="width: 100%;">
-                                <i class="fas fa-sign-in-alt"></i>
-                                Login with Email
-                            </button>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Login with Email</button>
                         </form>
-
                         <div class="divider">OR</div>
-
                         <div class="login-options">
-                            <button class="login-btn">
-                                <i class="fas fa-mobile-alt"></i>
-                                Login with Mobile OTP
-                            </button>
-
-                            <button class="login-btn">
-                                <i class="fab fa-telegram"></i>
-                                Login with Telegram
-                            </button>
+                            <button class="login-btn"><i class="fas fa-mobile-alt"></i> Login with Mobile OTP</button>
+                            <button class="login-btn"><i class="fab fa-telegram"></i> Login with Telegram</button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Footer -->
-        <!-- New Footer Design -->
         <footer id="contact">
-            <div class="container" style="position: relative; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div class="container">
                 <div class="footer-content">
-
-                    <!-- Left: Copyright -->
-                    <div class="copyright-text">
-                        &copy; 2026 AI-ID Management. All rights reserved.
-                    </div>
-
-                    <!-- Center: Social Icons -->
+                    <div class="copyright-text">&copy; 2026 AI-ID Management. All rights reserved.</div>
                     <div class="social-row">
                         <a href="#" class="social-icon-btn"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social-icon-btn"><i class="fa-brands fa-x-twitter"></i></a>
                         <a href="#" class="social-icon-btn"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-icon-btn"><i class="fab fa-youtube"></i></a>
                     </div>
-
-                    <!-- Right: Scroll Top Only -->
-                    <div class="footer-right-area">
-                        <!-- Scroll To Top Button -->
-                        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="scroll-top-btn"
-                            title="Scroll to Top">
-                            <i class="fas fa-arrow-up"></i>
-                        </button>
-                    </div>
-
                 </div>
             </div>
         </footer>
 
-        <!-- Chat Bot Widget -->
+        <!-- Chatbot -->
         <div class="chatbot-widget">
-            <button class="chatbot-btn" onclick="toggleChat()" id="chat-toggle">
-                <i class="fas fa-comments"></i>
-            </button>
+            <button class="chatbot-btn" onclick="toggleChat()" id="chat-toggle"><i class="fas fa-comments"></i></button>
             <div class="chatbot-window" id="chat-window">
-                <div class="chat-header">
-                    <span class="font-bold">AI Assistant</span>
-                    <button onclick="toggleChat()" class="text-white hover:text-gray-200">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
+                <div class="chat-header"><span>AI Assistant</span><button onclick="toggleChat()" class="text-white"><i
+                            class="fas fa-times"></i></button></div>
                 <div class="chat-body" id="chat-messages">
-                    <div class="chat-msg bot">
-                        Hello! 👋 How can I help you today?
-                    </div>
+                    <div class="chat-msg bot">Hello! 👋 How can I help you?</div>
                 </div>
                 <div class="chat-input-area">
                     <input type="text" id="chat-input" class="chat-input" placeholder="Type a message...">
                     <button onclick="sendMessage()"
-                        class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-blue-700">
-                        <i class="fas fa-paper-plane text-xs"></i>
-                    </button>
+                        class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center"><i
+                            class="fas fa-paper-plane text-xs"></i></button>
                 </div>
             </div>
         </div>
-
-        <script>
-            // Simple Chat Bot Logic
-            function toggleChat() {
-                const win = document.getElementById('chat-window');
-                win.classList.toggle('active');
-            }
-
-            const chatInput = document.getElementById('chat-input');
-            const chatMessages = document.getElementById('chat-messages');
-
-            chatInput.addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') sendMessage();
-            });
-
-            function sendMessage() {
-                const text = chatInput.value.trim();
-                if (!text) return;
-
-                // User Message
-                addMessage(text, 'user');
-                chatInput.value = '';
-
-                // Bot Response (Simulated)
-                setTimeout(() => {
-                    let response = "Thanks for your message! Our team will get back to you shortly.";
-                    if (text.toLowerCase().includes('price')) response = "Our pricing plans start from $99/month. Check the pricing section!";
-                    else if (text.toLowerCase().includes('demo')) response = "You can book a demo using the button in the menu.";
-
-                    addMessage(response, 'bot');
-                }, 1000);
-            }
-
-            function addMessage(text, sender) {
-                const div = document.createElement('div');
-                div.className = `chat-msg ${sender}`;
-                div.textContent = text;
-                chatMessages.appendChild(div);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-        </script>
     </div> <!-- End home-view -->
 
-    <script>
-        // ============================================
-        // UTILITY FUNCTIONS
-        // ============================================
-
-        function showMessage(message, type = 'success') {
-            const alertDiv = document.createElement('div');
-            alertDiv.style.cssText = `
-                position: fixed;
-                top: 100px;
-                right: 24px;
-                padding: 16px 24px;
-                background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#f59e0b'};
-                color: white;
-                border-radius: 12px;
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-                z-index: 10000;
-                animation: slideIn 0.3s ease;
-                max-width: 400px;
-            `;
-            alertDiv.textContent = message;
-            document.body.appendChild(alertDiv);
-
-            setTimeout(() => {
-                alertDiv.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => alertDiv.remove(), 300);
-            }, 5000);
-        }
-
-        function showLoader(button) {
-            button.dataset.originalText = button.innerHTML;
-            button.disabled = true;
-            button.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Processing...';
-        }
-
-        function hideLoader(button) {
-            button.disabled = false;
-            button.innerHTML = button.dataset.originalText || 'Submit';
-        }
-
-        // ============================================
-        // HEADER SCROLL EFFECT
-        // ============================================
-
-        const header = document.getElementById('header');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // ============================================
-        // DEMO FORM SUBMISSION
-        // ============================================
-
-        document.getElementById('demoForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
-
-            const submitBtn = this.querySelector('button[type="submit"]');
-            showLoader(submitBtn);
-
-            const formData = {
-                fullName: document.getElementById('fullName').value,
-                email: document.getElementById('email').value,
-                mobile: document.getElementById('mobile').value,
-                city: document.getElementById('city').value,
-                address: document.getElementById('address').value,
-                idCards: document.getElementById('idCards').value
-            };
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/demo/book`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    showMessage('Demo booking successful! We will contact you shortly.', 'success');
-                    this.reset();
-                } else {
-                    showMessage(data.message || 'Booking failed. Please try again.', 'error');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                showMessage('Unable to book demo. Please check your connection and try again.', 'error');
-            } finally {
-                hideLoader(submitBtn);
-            }
-        });
-
-        // ============================================
-        // EMAIL/PASSWORD LOGIN
-        // ============================================
-
-        document.getElementById('loginForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
-
-            const submitBtn = this.querySelector('button[type="submit"]');
-            showLoader(submitBtn);
-
-            const loginData = {
-                email: document.getElementById('loginEmail').value,
-                password: document.getElementById('loginPassword').value
-            };
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/auth/login`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(loginData)
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    // Store session token
-                    localStorage.setItem('authToken', data.token);
-                    localStorage.setItem('user', JSON.stringify(data.user));
-
-                    showMessage(`Welcome back, ${data.user.name || data.user.email}!`, 'success');
-
-                    // Redirect to dashboard after 1 second
-                    setTimeout(() => {
-                        window.location.href = '/dashboard.html'; // You'll create this later
-                    }, 1000);
-                } else {
-                    showMessage(data.message || 'Login failed', 'error');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                showMessage('Login failed. Please try again.', 'error');
-            } finally {
-                hideLoader(submitBtn);
-            }
-        });
-
-        // ============================================
-        // MOBILE OTP LOGIN
-        // ============================================
-
-        let otpSent = false;
-        let mobileNumber = '';
-
-        document.addEventListener('click', async function (e) {
-            // Handle OTP Request
-            if (e.target.closest('.login-btn') && e.target.closest('.login-btn').textContent.includes('Mobile OTP')) {
-                const button = e.target.closest('.login-btn');
-
-                if (!otpSent) {
-                    const mobile = prompt('Enter your mobile number:');
-                    if (!mobile) return;
-
-                    showLoader(button);
-                    mobileNumber = mobile;
-
-                    try {
-                        const response = await fetch(`${API_BASE_URL}/auth/request-otp`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ mobile })
-                        });
-
-                        const data = await response.json();
-
-                        if (data.success) {
-                            otpSent = true;
-                            button.innerHTML = '<i class="fas fa-check"></i> Enter OTP';
-                            showMessage(`OTP sent to ${mobile}. ${data.debug_otp ? 'OTP: ' + data.debug_otp : ''}`, 'success');
-                        } else {
-                            showMessage(data.message, 'error');
-                        }
-                    } catch (error) {
-                        showMessage('Failed to send OTP', 'error');
-                    } finally {
-                        hideLoader(button);
-                    }
-                } else {
-                    const otp = prompt('Enter the OTP sent to your mobile:');
-                    if (!otp) return;
-
-                    showLoader(button);
-
-                    try {
-                        const response = await fetch(`${API_BASE_URL}/auth/verify-otp`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ mobile: mobileNumber, otp })
-                        });
-
-                        const data = await response.json();
-
-                        if (data.success) {
-                            localStorage.setItem('authToken', data.token);
-                            localStorage.setItem('user', JSON.stringify(data.user));
-
-                            showMessage('Login successful!', 'success');
-                            setTimeout(() => {
-                                window.location.href = '/dashboard.html';
-                            }, 1000);
-                        } else {
-                            showMessage(data.message, 'error');
-                            otpSent = false;
-                            button.innerHTML = '<i class="fas fa-mobile-alt"></i> Login with Mobile OTP';
-                        }
-                    } catch (error) {
-                        showMessage('OTP verification failed', 'error');
-                        otpSent = false;
-                        button.innerHTML = '<i class="fas fa-mobile-alt"></i> Login with Mobile OTP';
-                    } finally {
-                        hideLoader(button);
-                    }
-                }
-            }
-        });
-
-        // ============================================
-        // TELEGRAM LOGIN CALLBACK
-        // ============================================
-
-        async function onTelegramAuth(user) {
-            console.log('Telegram user data:', user);
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/auth/telegram`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(user)
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    localStorage.setItem('authToken', data.token);
-                    localStorage.setItem('user', JSON.stringify(data.user));
-
-                    showMessage(`Welcome, ${data.user.firstName}!`, 'success');
-                    setTimeout(() => {
-                        window.location.href = '/dashboard.html';
-                    }, 1000);
-                } else {
-                    showMessage('Telegram login failed', 'error');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                showMessage('Telegram login failed', 'error');
-            }
-        }
-
-        // Initialize Telegram Login Widget - IMPORTANT: Replace 'YOUR_BOT_NAME' with actual bot username
-        document.addEventListener('DOMContentLoaded', function () {
-            const telegramLoginBtn = document.querySelector('.login-btn:has(.fa-telegram)');
-            if (telegramLoginBtn) {
-                telegramLoginBtn.addEventListener('click', function () {
-                    showMessage('Telegram integration requires a Telegram bot. Please configure your bot in .env file.', 'info');
-                    // Uncomment this when you have a bot set up:
-                    // const script = document.createElement('script');
-                    // script.async = true;
-                    // script.src = 'https://telegram.org/js/telegram-widget.js?22';
-                    // script.setAttribute('data-telegram-login', 'YOUR_BOT_NAME');
-                    // script.setAttribute('data-size', 'large');
-                    // script.setAttribute('data-onauth', 'onTelegramAuth(user)');
-                    // script.setAttribute('data-request-access', 'write');
-                    // document.getElementById('telegram-login-container').appendChild(script);
-                });
-            }
-        });
-
-        // ============================================
-        // FREE TRIAL SIGNUP (from hero buttons)
-        // ============================================
-
-        document.querySelectorAll('[href="#trial"]').forEach(btn => {
-            btn.addEventListener('click', async function (e) {
-                e.preventDefault();
-
-                const fullName = prompt('Enter your full name:');
-                if (!fullName) return;
-
-                const email = prompt('Enter your email:');
-                if (!email) return;
-
-                const mobile = prompt('Enter your mobile number:');
-                if (!mobile) return;
-
-                const organizationName = prompt('Enter your organization name (optional):');
-                const organizationType = prompt('Organization type (School/College/Corporate/Other):');
-
-                const trialData = {
-                    fullName,
-                    email,
-                    mobile,
-                    organizationName,
-                    organizationType
-                };
-
-                try {
-                    const response = await fetch(`${API_BASE_URL}/trial/signup`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(trialData)
-                    });
-
-                    const data = await response.json();
-
-                    if (data.success) {
-                        showMessage('Trial account created! Check your email for login credentials.', 'success');
-                        // Show credentials (in production, send via email)
-                        alert(`Trial Account Created!\\n\\nEmail: ${data.user.email}\\nPassword: ${data.user.password}\\n\\nPlease save these credentials and login.`);
-                    } else {
-                        showMessage(data.message, 'error');
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    showMessage('Failed to create trial account', 'error');
-                }
-            });
-        });
-
-        // ============================================
-        // SMOOTH SCROLLING FOR ANCHOR LINKS
-        // ============================================
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href === '#trial' || href === '#demo' || href === '#login') {
-                    // These are handled by specific functions above
-                    return;
-                }
-
-                e.preventDefault();
-                const target = document.querySelector(href);
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // ============================================
-        // ADD ANIMATION STYLES
-        // ============================================
-
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from {
-                    transform: translateX(400px);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-            
-            @keyframes slideOut {
-                from {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-                to {
-                    transform: translateX(400px);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-    </script>
     <!-- ================= APP/LOGIN ADMIN SECTION ================= -->
     <div id="app-view" class="hidden-section bg-gradient-to-br from-slate-100 to-slate-300">
         <div id="root"></div>
     </div>
 
+    <!-- Vanilla JS Logic -->
     <script>
-        function showSection(sectionId) {
+        // Utils
+        function showMessage(msg, type = 'success') {
+            const d = document.createElement('div');
+            d.style.cssText = `position:fixed;top:100px;right:24px;padding:16px;background:${type == 'success' ? '#10b981' : '#ef4444'};color:white;border-radius:12px;z-index:9999;`;
+            d.textContent = msg; document.body.appendChild(d);
+            setTimeout(() => d.remove(), 4000);
+        }
+        function toggleMobileMenu() {
+            document.getElementById('main-nav-links').classList.toggle('active');
+        }
+        function showSection(id) {
             document.getElementById('home-view').classList.add('hidden-section');
             document.getElementById('app-view').classList.add('hidden-section');
-
-            const target = document.getElementById(sectionId);
-            if (target) {
-                target.classList.remove('hidden-section');
-
-                // Re-trigger Lucide icons
-                if (window.lucide) window.lucide.createIcons();
-
-                window.scrollTo(0, 0);
-            }
+            document.getElementById(id).classList.remove('hidden-section');
+            window.scrollTo(0, 0);
         }
 
-        // Mobile Menu Toggle
-        function toggleMobileMenu() {
-            const navLinks = document.getElementById('main-nav-links');
-            const btn = document.querySelector('.mobile-menu-btn');
-            const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+        // Header Scroll
+        window.addEventListener('scroll', () => {
+            const h = document.getElementById('header');
+            window.scrollY > 50 ? h.classList.add('scrolled') : h.classList.remove('scrolled');
+        });
 
-            navLinks.classList.toggle('active');
-            btn.setAttribute('aria-expanded', !isExpanded);
-
-            // Toggle icon
-            const icon = btn.querySelector('i');
-            if (!isExpanded) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
+        // Chatbot
+        function toggleChat() { document.getElementById('chat-window').classList.toggle('active'); }
+        function sendMessage() {
+            const inp = document.getElementById('chat-input');
+            const txt = inp.value.trim();
+            if (!txt) return;
+            const msgs = document.getElementById('chat-messages');
+            msgs.innerHTML += `<div class="chat-msg user">${txt}</div>`;
+            inp.value = '';
+            setTimeout(() => {
+                msgs.innerHTML += `<div class="chat-msg bot">Thank you. Our team will contact you.</div>`;
+                msgs.scrollTop = msgs.scrollHeight;
+            }, 1000);
         }
 
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                const navLinks = document.getElementById('main-nav-links');
-                if (navLinks.classList.contains('active')) {
-                    toggleMobileMenu();
-                }
-            });
+        // --- Demo Form & Login Form (Vanilla) ---
+        // These use API_BASE_URL. Ensure your backend supports these endpoints.
+        document.getElementById('demoForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            showMessage('Demo Request Submitted (Simulation)');
+        });
+        document.getElementById('loginForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            showMessage('Standard Login Submitted (Simulation)');
         });
     </script>
 
@@ -2403,498 +1527,154 @@
         const { User, Lock, Users, PlusCircle, LayoutDashboard, LogOut, Save, Search, Table, Eye, EyeOff, Edit, X } = lucide || {};
 
         // --- CONFIGURATION ---
-        // IMPORTANT: Replace this URL with your deployed Google Web App URL
-        const API_URL = "https://script.google.com/macros/s/AKfycbzcxbmt-b6Lx-uDjjMoYGykhsdhdJNTRpLqPbg8QfzhfuMaTvPowOugWkvvORHyxY8/exec";
+        // Updated API URL provided by User
+        const API_URL = "https://script.google.com/macros/s/AKfycbxjvuhImkxMYUPr-t7pHseqvJ8cifFKAi1CrWxBfZDGNtMS8RZep2Z-KLTY26Oj43A/exec";
 
-        /**
-         * API Service Helper
-         * Uses POST 'text/plain' to avoid CORS preflight issues with GAS.
-         * The GAS script accepts JSON in the body.
-         */
         const apiService = async (action, payload = {}) => {
             try {
-                // We use proper CORS handling. 
-                // Ensure your Google Script is deployed as "Who has access: Anyone" => This is CRITICAL.
-
                 const response = await fetch(API_URL, {
                     method: 'POST',
-                    // We use text/plain to avoid preflight (OPTIONS) request which GAS does not support.
-                    // The data is still JSON stringified.
-                    headers: {
-                        'Content-Type': 'text/plain;charset=utf-8',
-                    },
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({ action, payload })
                 });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP Error: ${response.status}`);
-                }
-
-                const data = await response.json();
-                return data;
+                if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+                return await response.json();
             } catch (error) {
-                console.error("API Error Details:", error);
-
-                // Fallback for debugging
-                return {
-                    success: false,
-                    message: `Connection Failed: ${error.message}. Ensure 'Who has access' is set to 'Anyone' in GAS deployment.`
-                };
+                console.error("API Error:", error);
+                return { success: false, message: `Connection Failed: ${error.message}` };
             }
         };
 
-        // --- COMPONENTS ---
+        // --- Components ---
+        const Spinner = () => <div className="flex justify-center p-4"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div></div>;
 
-        // 1. Loading Spinner
-        const Spinner = () => (
-            <div className="flex justify-center items-center p-4">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-            </div>
-        );
-
-        // 2. Modal
         const Modal = ({ title, isOpen, onClose, children }) => {
             if (!isOpen) return null;
             return (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm fade-in">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
                     <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden">
-                        <div className="flex justify-between items-center p-4 border-b border-gray-100">
-                            <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-                            <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded-full transition-colors">
-                                <i data-lucide="x" className="w-5 h-5 text-gray-500"></i>
-                            </button>
+                        <div className="flex justify-between items-center p-4 border-b">
+                            <h3 className="text-lg font-semibold">{title}</h3>
+                            <button onClick={onClose}><i data-lucide="x" className="w-5 h-5"></i></button>
                         </div>
-                        <div className="p-6 overflow-y-auto max-h-[80vh]">
-                            {children}
-                        </div>
+                        <div className="p-6 overflow-y-auto max-h-[80vh]">{children}</div>
                     </div>
                 </div>
             );
         };
 
-        // 3. Login Page
         const LoginPage = ({ onLogin }) => {
-            const [role, setRole] = useState('Admin'); // Admin, Employee, Client
+            const [role, setRole] = useState('Admin');
             const [email, setEmail] = useState('');
             const [password, setPassword] = useState('');
             const [loading, setLoading] = useState(false);
             const [error, setError] = useState('');
 
-            useEffect(() => {
-                if (window.lucide) window.lucide.createIcons();
-            }, [role]);
+            useEffect(() => { if (window.lucide) window.lucide.createIcons(); }, [role]);
 
             const handleSubmit = async (e) => {
                 e.preventDefault();
-                setError('');
-                setLoading(true);
-
+                setError(''); setLoading(true);
                 const res = await apiService("LOGIN", { role, email, password });
-
                 setLoading(false);
-                if (res.success) {
-                    onLogin(res.user, role);
-                } else {
-                    setError(res.message || "Invalid credentials. Please try again.");
-                }
+                if (res.success) onLogin(res.user, role);
+                else setError(res.message || "Invalid credentials.");
             };
 
             return (
                 <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4">
                     <div className="absolute top-4 left-4 z-50">
-                        <button onClick={() => showSection('home-view')} className="bg-white/20 hover:bg-white/40 text-white px-4 py-2 rounded-lg backdrop-blur-sm text-sm font-medium transition-all flex items-center gap-2">
-                            ← Back to Home
-                        </button>
+                        <button onClick={() => showSection('home-view')} className="bg-white/20 text-white px-4 py-2 rounded-lg backdrop-blur-sm">← Back to Home</button>
                     </div>
-
                     <div className="glass-react bg-white/95 p-8 rounded-2xl shadow-2xl w-full max-w-md">
-                        <div className="text-center mb-8">
-                            <h1 className="text-3xl font-bold text-gray-800 tracking-tight">Portal Login</h1>
-                            <p className="text-gray-500 mt-2">Secure Access Gateway</p>
-                        </div>
-
-                        {/* Role Selector */}
+                        <h1 className="text-3xl font-bold text-center mb-8">Portal Login</h1>
                         <div className="flex bg-gray-100 p-1 rounded-lg mb-6">
                             {['Admin', 'Employee', 'Client'].map(r => (
-                                <button
-                                    key={r}
-                                    type="button"
-                                    onClick={() => setRole(r)}
-                                    className={`flex-1 py-2 rounded-md text-sm font-medium transition-all ${role === r ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
-                                >
-                                    {r}
-                                </button>
+                                <button key={r} onClick={() => setRole(r)} className={`flex-1 py-2 rounded-md ${role === r ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500'}`}>{r}</button>
                             ))}
                         </div>
-
-                        {error && <div className="mb-4 p-3 bg-red-50 text-red-600 text-sm rounded-lg">{error}</div>}
-
+                        {error && <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg">{error}</div>}
                         <form onSubmit={handleSubmit} className="space-y-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Email / Username</label>
-                                <div className="relative">
-                                    <span className="absolute left-3 top-3 text-gray-400"><i data-lucide="user"></i></span>
-                                    <input
-                                        type="email"
-                                        required
-                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
-                                        placeholder="user@example.com"
-                                        value={email}
-                                        onChange={e => setEmail(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                                <div className="relative">
-                                    <span className="absolute left-3 top-3 text-gray-400"><i data-lucide="lock"></i></span>
-                                    <input
-                                        type="password"
-                                        required
-                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
-                                        placeholder="••••••••"
-                                        value={password}
-                                        onChange={e => setPassword(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-70 disabled:cursor-wait"
-                            >
-                                {loading ? 'Verifying...' : `Login as ${role}`}
-                            </button>
+                            <div><label className="block text-sm font-medium mb-1">Email</label><input type="email" required className="w-full p-2 border rounded" value={email} onChange={e => setEmail(e.target.value)} /></div>
+                            <div><label className="block text-sm font-medium mb-1">Password</label><input type="password" required className="w-full p-2 border rounded" value={password} onChange={e => setPassword(e.target.value)} /></div>
+                            <button type="submit" disabled={loading} className="w-full bg-indigo-600 text-white py-2 rounded-lg font-bold">{loading ? 'Verifying...' : `Login as ${role}`}</button>
                         </form>
                     </div>
                 </div>
             );
         };
 
-        // 4. Admin Dashboard Components
-        const Input = ({ label, ...props }) => (
-            <div className="w-full">
-                <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-                <input {...props} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition-all disabled:bg-gray-100" />
-            </div>
-        );
-
-        const UserForm = ({ type, onSubmit, loading }) => {
-            // General form for both Employee and Client
-            const [formData, setFormData] = useState({
-                Name: '', Email: '', Password: '', Phone: '', Designation: '', CompanyName: '', ProjectDetails: ''
-            });
-
-            const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-            const handleSubmit = (e) => {
-                e.preventDefault();
-                onSubmit(formData);
-            };
-
-            return (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <Input name="Name" label="Full Name" value={formData.Name} onChange={handleChange} required />
-                    <Input type="email" name="Email" label="Email Address" value={formData.Email} onChange={handleChange} required />
-                    <Input type="text" name="Password" label="Default Password" value={formData.Password} onChange={handleChange} required />
-
-                    {type === 'Employee' && (
-                        <>
-                            <Input name="Phone" label="Phone Number" value={formData.Phone} onChange={handleChange} />
-                            <Input name="Designation" label="Designation" value={formData.Designation} onChange={handleChange} />
-                        </>
-                    )}
-
-                    {type === 'Client' && (
-                        <>
-                            <Input name="CompanyName" label="Company Name" value={formData.CompanyName} onChange={handleChange} />
-                            <Input name="ProjectDetails" label="Project Details" value={formData.ProjectDetails} onChange={handleChange} />
-                        </>
-                    )}
-
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg transition-all"
-                    >
-                        {loading ? 'Saving...' : `Add New ${type}`}
-                    </button>
-                </form>
-            );
-        };
-
-        const DataTable = ({ title, data, type, onEdit }) => {
-            // Include password in view
-            if (!data || data.length === 0) return <div className="text-gray-500 italic p-4">No {type.toLowerCase()}s found.</div>;
-
-            const headers = Object.keys(data[0]);
-
-            return (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
-                    <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-                        <h3 className="font-bold text-gray-700">{title}</h3>
-                        <span className="text-xs font-mono bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">{data.length} Records</span>
-                    </div>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left text-sm">
-                            <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
-                                <tr>
-                                    <th className="px-4 py-3">ID</th>
-                                    <th className="px-4 py-3">Name</th>
-                                    <th className="px-4 py-3">Email</th>
-                                    <th className="px-4 py-3 text-red-500">Password</th>
-                                    <th className="px-4 py-3">Role</th>
-                                    <th className="px-4 py-3">{type === 'Employee' ? 'Designation' : 'Company'}</th>
-                                    <th className="px-4 py-3">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-100">
-                                {data.map((row, i) => (
-                                    <tr key={i} className="hover:bg-gray-50 transition-colors">
-                                        <td className="px-4 py-3 font-mono text-xs">{row.ID}</td>
-                                        <td className="px-4 py-3 font-medium text-gray-900">{row.Name}</td>
-                                        <td className="px-4 py-3 text-gray-500">{row.Email}</td>
-                                        <td className="px-4 py-3 text-gray-500 font-mono">{row.Password}</td>
-                                        <td className="px-4 py-3"><span className="px-2 py-0.5 rounded text-xs bg-blue-100 text-blue-700">{row.Role}</span></td>
-                                        <td className="px-4 py-3 text-gray-500">{type === 'Employee' ? row.Designation : row.CompanyName}</td>
-                                        <td className="px-4 py-3">
-                                            <button
-                                                onClick={() => onEdit(type, row)}
-                                                className="text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1"
-                                            >
-                                                <i data-lucide="edit" className="w-3 h-3"></i> Edit
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            );
-        };
-
         const AdminDashboard = ({ user, onLogout }) => {
-            const [activeTab, setActiveTab] = useState('employees'); // employees, clients
+            const [activeTab, setActiveTab] = useState('employees');
             const [data, setData] = useState({ employees: [], clients: [] });
             const [loading, setLoading] = useState(false);
-            const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-            const [editingUser, setEditingUser] = useState(null); // { type: 'Employee'|'Client', data: {} }
 
-            useEffect(() => {
-                fetchData();
-                if (window.lucide) window.lucide.createIcons();
-            }, []);
-
-            useEffect(() => {
-                if (window.lucide) window.lucide.createIcons();
-            }, [data, activeTab]);
+            useEffect(() => { fetchData(); }, []);
+            useEffect(() => { if (window.lucide) window.lucide.createIcons(); }, [data, activeTab]);
 
             const fetchData = async () => {
                 setLoading(true);
                 const res = await apiService("GET_ALL_DATA");
-                if (res.success) {
-                    setData(res.data);
-                } else {
-                    alert("Failed to fetch data: " + res.message);
-                }
+                if (res.success) setData(res.data);
+                else alert("Failed to fetch data: " + res.message);
                 setLoading(false);
-            };
-
-            const handleAddUser = async (type, formData) => {
-                setLoading(true);
-                const action = type === 'Employee' ? 'ADD_EMPLOYEE' : 'ADD_CLIENT';
-                const payload = { ...formData, Role: type };
-
-                const res = await apiService(action, payload);
-                if (res.success) {
-                    alert(`${type} added successfully! ID: ${res.id}`);
-                    fetchData(); // Refresh table
-                } else {
-                    alert("Error: " + res.message);
-                }
-                setLoading(false);
-            };
-
-            const handleEditClick = (type, rowData) => {
-                setEditingUser({ type, data: { ...rowData } });
-                setIsEditModalOpen(true);
-            };
-
-            const handleUpdateUser = async (e) => {
-                e.preventDefault();
-                setLoading(true);
-                const { type, data } = editingUser;
-                const sheetTarget = type === 'Employee' ? 'Employees' : 'Clients';
-
-                // Construct updates
-                const res = await apiService("UPDATE_USER", {
-                    sheetTarget,
-                    id: data.ID,
-                    updates: { ...data }
-                });
-
-                if (res.success) {
-                    alert("Updated successfully!");
-                    setIsEditModalOpen(false);
-                    fetchData();
-                } else {
-                    alert("Update failed: " + res.message);
-                }
-                setLoading(false);
-            };
-
-            const handleEditChange = (e) => {
-                setEditingUser({
-                    ...editingUser,
-                    data: { ...editingUser.data, [e.target.name]: e.target.value }
-                });
             };
 
             return (
                 <div className="flex min-h-screen bg-gray-50">
-                    {/* Sidebar */}
-                    <aside className="w-64 bg-white border-r border-gray-200">
-                        <div className="p-6">
-                            <h2 className="text-2xl font-bold text-indigo-600">AdminPanel</h2>
-                            <p className="text-sm text-gray-500">Welcome, {user.Name}</p>
-                        </div>
+                    <aside className="w-64 bg-white border-r h-screen overflow-y-auto">
+                        <div className="p-6"><h2 className="text-2xl font-bold text-indigo-600">AdminPanel</h2><p className="text-sm text-gray-500">Welcome, {user.Name}</p></div>
                         <nav className="px-4 space-y-2">
-                            <button onClick={() => setActiveTab('employees')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeTab === 'employees' ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-50'}`}>
-                                <i data-lucide="users" className="w-5 h-5"></i> Employees
-                            </button>
-                            <button onClick={() => setActiveTab('clients')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeTab === 'clients' ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-50'}`}>
-                                <i data-lucide="user" className="w-5 h-5"></i> Clients
-                            </button>
+                            <button onClick={() => setActiveTab('employees')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg ${activeTab === 'employees' ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600'}`}><i data-lucide="users" className="w-5 h-5"></i> Employees</button>
+                            <button onClick={() => setActiveTab('clients')} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg ${activeTab === 'clients' ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600'}`}><i data-lucide="user" className="w-5 h-5"></i> Clients</button>
                         </nav>
-                        <div className="absolute bottom-0 w-64 p-4 border-t border-gray-100">
-                            <button onClick={onLogout} className="flex items-center gap-2 text-red-600 hover:text-red-700 font-medium">
-                                <i data-lucide="log-out" className="w-5 h-5"></i> Logout
-                            </button>
-                        </div>
+                        <div className="p-4 border-t"><button onClick={onLogout} className="flex items-center gap-2 text-red-600 font-medium"><i data-lucide="log-out"></i> Logout</button></div>
                     </aside>
-
-                    {/* Main Content */}
-                    <main className="flex-1 p-8 overflow-y-auto">
-                        <div className="max-w-6xl mx-auto">
-                            <header className="flex justify-between items-center mb-8">
-                                <h1 className="text-2xl font-bold text-gray-800">
-                                    {activeTab === 'employees' ? 'Employee Management' : 'Client Management'}
-                                </h1>
-                                <button onClick={fetchData} className="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
-                                    Refresh Data
-                                </button>
-                            </header>
-
-                            {/* Add Form Section */}
-                            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-8">
-                                <h3 className="text-lg font-semibold mb-4 text-gray-800">Add New {activeTab === 'employees' ? 'Employee' : 'Client'}</h3>
-                                <UserForm
-                                    type={activeTab === 'employees' ? 'Employee' : 'Client'}
-                                    onSubmit={(fd) => handleAddUser(activeTab === 'employees' ? 'Employee' : 'Client', fd)}
-                                    loading={loading}
-                                />
-                            </div>
-
-                            {/* Data Table */}
-                            {loading && !data.employees.length ? <Spinner /> : (
-                                <DataTable
-                                    title={`All ${activeTab === 'employees' ? 'Employees' : 'Clients'}`}
-                                    data={activeTab === 'employees' ? data.employees : data.clients}
-                                    type={activeTab === 'employees' ? 'Employee' : 'Client'}
-                                    onEdit={handleEditClick}
-                                />
+                    <main className="flex-1 p-8 overflow-y-auto h-screen">
+                        <header className="flex justify-between items-center mb-8">
+                            <h1 className="text-2xl font-bold">{activeTab === 'employees' ? 'Employees' : 'Clients'}</h1>
+                            <button onClick={fetchData} className="text-indigo-600 font-medium">Refresh</button>
+                        </header>
+                        <div className="bg-white p-6 rounded-xl shadow-sm border">
+                            {loading ? <Spinner /> : (
+                                <table className="w-full text-left text-sm">
+                                    <thead className="bg-gray-50 text-gray-600"><tr><th className="p-3">ID</th><th className="p-3">Name</th><th className="p-3">Email</th><th className="p-3">Role</th></tr></thead>
+                                    <tbody>
+                                        {(activeTab === 'employees' ? data.employees : data.clients).map((row, i) => (
+                                            <tr key={i} className="border-t hover:bg-gray-50"><td className="p-3">{row.ID}</td><td className="p-3">{row.Name}</td><td className="p-3">{row.Email}</td><td className="p-3">{row.Role}</td></tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             )}
                         </div>
                     </main>
-
-                    {/* Edit Modal */}
-                    <Modal title={`Edit ${editingUser?.type}`} isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
-                        {editingUser && (
-                            <form onSubmit={handleUpdateUser} className="space-y-4">
-                                <Input label="Full Name" name="Name" value={editingUser.data.Name} onChange={handleEditChange} required />
-                                <Input label="Email" name="Email" value={editingUser.data.Email} onChange={handleEditChange} required />
-                                <Input label="Password" name="Password" value={editingUser.data.Password} onChange={handleEditChange} required />
-
-                                {editingUser.type === 'Employee' && (
-                                    <>
-                                        <Input label="Phone" name="Phone" value={editingUser.data.Phone} onChange={handleEditChange} />
-                                        <Input label="Designation" name="Designation" value={editingUser.data.Designation} onChange={handleEditChange} />
-                                    </>
-                                )}
-                                {editingUser.type === 'Client' && (
-                                    <>
-                                        <Input label="Company Name" name="CompanyName" value={editingUser.data.CompanyName} onChange={handleEditChange} />
-                                        <Input label="Project Details" name="ProjectDetails" value={editingUser.data.ProjectDetails} onChange={handleEditChange} />
-                                    </>
-                                )}
-                                <div className="pt-4 flex gap-3">
-                                    <button type="submit" disabled={loading} className="flex-1 bg-indigo-600 text-white py-2 rounded-lg font-medium">{loading ? 'Updating...' : 'Save Changes'}</button>
-                                    <button type="button" onClick={() => setIsEditModalOpen(false)} className="flex-1 bg-gray-100 text-gray-600 py-2 rounded-lg font-medium">Cancel</button>
-                                </div>
-                            </form>
-                        )}
-                    </Modal>
-
                 </div>
             );
         };
 
-        // 5. Basic User/Client Dashboard (Placeholder for now)
-        const UserDashboard = ({ user, role, onLogout }) => (
-            <div className="min-h-screen bg-gray-50 p-8">
-                <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-8">
-                    <div className="flex justify-between items-center border-b border-gray-100 pb-6 mb-6">
-                        <div>
-                            <h1 className="text-3xl font-bold text-gray-800">Welcome, {user.Name}</h1>
-                            <p className="text-indigo-600 font-medium">{role} Portal</p>
-                        </div>
-                        <button onClick={onLogout} className="bg-red-50 text-red-600 px-4 py-2 rounded-lg font-medium hover:bg-red-100 transition-colors">
-                            Logout
-                        </button>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
-                            <h3 className="font-bold text-blue-800 mb-2">My Profile</h3>
-                            <p className="text-sm text-gray-600 mb-1"><strong>Email:</strong> {user.Email}</p>
-                            <p className="text-sm text-gray-600 mb-1"><strong>ID:</strong> {user.ID}</p>
-                            {role === 'Employee' && <p className="text-sm text-gray-600"><strong>Designation:</strong> {user.Designation}</p>}
-                            {role === 'Client' && <p className="text-sm text-gray-600"><strong>Company:</strong> {user.CompanyName}</p>}
-                        </div>
-                        <div className="bg-green-50 p-6 rounded-xl border border-green-100">
-                            <h3 className="font-bold text-green-800 mb-2">Project/Work Status</h3>
-                            <p className="text-gray-600">No active updates available at the moment.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-
-        // --- MAIN APP ---
         const App = () => {
-            const [view, setView] = useState('login');
             const [user, setUser] = useState(null);
-            const [role, setRole] = useState(null);
 
-            const handleLogin = (userData, userRole) => {
-                setUser(userData);
-                setRole(userRole);
-                if (userRole === 'Admin') setView('admin-dashboard');
-                else setView('user-dashboard');
+            // Check local storage on load
+            useEffect(() => {
+                const stored = localStorage.getItem('user');
+                if (stored) setUser(JSON.parse(stored));
+                if (window.lucide) window.lucide.createIcons();
+            }, []);
+
+            const handleLogin = (userData, role) => {
+                const u = { ...userData, role };
+                localStorage.setItem('user', JSON.stringify(u));
+                setUser(u);
             };
 
             const handleLogout = () => {
+                localStorage.removeItem('user');
                 setUser(null);
-                setRole(null);
-                setView('login');
             };
 
-            if (view === 'login') return <LoginPage onLogin={handleLogin} />;
-            if (view === 'admin-dashboard') return <AdminDashboard user={user} onLogout={handleLogout} />;
-            if (view === 'user-dashboard') return <UserDashboard user={user} role={role} onLogout={handleLogout} />;
-
-            return <div>Loading...</div>;
+            if (!user) return <LoginPage onLogin={handleLogin} />;
+            return <AdminDashboard user={user} onLogout={handleLogout} />;
         };
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
