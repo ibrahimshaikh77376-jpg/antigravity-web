@@ -1,0 +1,121 @@
+{
+    "project_name": "Horizon Internet - Sizzling Summer Sale",
+    "theme": "light",
+    "design_philosophy": "High Energy Summer Festival. Think music festival posters meets tech speed. Vibrant, loud, sunny, and fast.",
+    "typography": {
+        "font_family": {
+            "heading": "Bebas Neue, sans-serif",
+            "body": "Manrope, sans-serif",
+            "mono": "JetBrains Mono, monospace"
+        },
+        "scale": {
+            "h1": "text-6xl md:text-8xl tracking-tight leading-[0.9]",
+            "h2": "text-4xl md:text-6xl tracking-tight leading-none",
+            "h3": "text-2xl md:text-4xl font-bold uppercase tracking-wider",
+            "body": "text-base md:text-lg leading-relaxed text-slate-700",
+            "caption": "text-sm font-medium uppercase tracking-widest text-slate-500"
+        },
+        "imports": [
+            "@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;700;800&display=swap');"
+        ]
+    },
+    "colors": {
+        "palette": {
+            "brand": {
+                "primary": "#FFD700",
+                "primary_foreground": "#000000",
+                "secondary": "#007AFF",
+                "secondary_foreground": "#FFFFFF",
+                "accent": "#FF4500",
+                "accent_foreground": "#FFFFFF"
+            },
+            "background": {
+                "default": "#FFFBEB",
+                "paper": "#FFFFFF",
+                "subtle": "#FEF3C7"
+            },
+            "text": {
+                "primary": "#0F172A",
+                "secondary": "#475569",
+                "muted": "#94A3B8"
+            },
+            "status": {
+                "success": "#10B981",
+                "warning": "#F59E0B",
+                "error": "#EF4444"
+            }
+        },
+        "usage_rules": "Use Solar Yellow (#FFD700) for large backgrounds and main headers. Use Electric Blue (#007AFF) for 'Speed' related elements and Primary Buttons. Use Hot Pink/Orange (#FF4500) for 'Sale' tags and urgency.",
+        "tailwind_config_extension": {
+            "colors": {
+                "brand-yellow": "#FFD700",
+                "brand-blue": "#007AFF",
+                "brand-orange": "#FF4500",
+                "brand-bg": "#FFFBEB"
+            }
+        }
+    },
+    "layout_strategies": {
+        "containers": "container mx-auto px-4 md:px-6 max-w-7xl",
+        "spacing": "Generous vertical spacing (py-24 or py-32) between sections. Tight horizontal spacing in grids.",
+        "grids": {
+            "pricing": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8",
+            "features": "grid grid-cols-1 md:grid-cols-3 gap-12"
+        }
+    },
+    "visual_enhancers": {
+        "shadows": "shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]",
+        "borders": "border-2 border-black",
+        "radius": "rounded-none",
+        "textures": "Use a subtle noise texture overlay on the yellow backgrounds to give it a 'printed flyer' feel."
+    },
+    "components": {
+        "buttons": {
+            "base": "inline-flex items-center justify-center px-8 py-4 text-xl font-bold uppercase tracking-wider transition-all transform",
+            "primary": "bg-brand-blue text-white hover:bg-brand-blue/90 hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black",
+            "secondary": "bg-white text-black hover:bg-gray-50 hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black",
+            "cta": "bg-brand-orange text-white text-2xl px-10 py-6 hover:scale-105 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-2 border-black"
+        },
+        "cards": {
+            "pricing": "Ticket Style. Top section yellow/blue/orange, bottom section white. Separated by a dashed border. Sharp corners. Heavy black border.",
+            "feature": "Minimalist. Bold icon on top. Large heading. Small text."
+        },
+        "generators": {
+            "wrapper": "flex flex-col lg:flex-row gap-8 bg-white border-2 border-black p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]",
+            "preview_area": "bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden relative",
+            "controls": "space-y-6"
+        }
+    },
+    "media": {
+        "image_urls": {
+            "hero_bg": "https://images.unsplash.com/photo-1759185260477-1a264e5dd18e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTJ8MHwxfHNlYXJjaHwyfHxzdW1tZXIlMjBiZWFjaCUyMGZ1biUyMGJyaWdodCUyMGNvbG9yc3xlbnwwfHx8fDE3NzA5Nzc1NDB8MA&ixlib=rb-4.1.0&q=85",
+            "router_icon": "https://images.unsplash.com/photo-1606904825846-647eb07f5be2?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHwxfHxoaWdoJTIwc3BlZWQlMjBpbnRlcm5ldCUyMHJvdXRlciUyMGNvbmNlcHR8ZW58MHx8fHwxNzcwOTc3NTQyfDA&ixlib=rb-4.1.0&q=85",
+            "happy_user": "https://images.unsplash.com/photo-1727268533419-6f616e717181?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNDR8MHwxfHNlYXJjaHw0fHxwZXJzb24lMjB1c2luZyUyMHNtYXJ0cGhvbmUlMjBsYXVnaGluZyUyMHN1bW1lcnxlbnwwfHx8fDE3NzA5Nzc1NDN8MA&ixlib=rb-4.1.0&q=85",
+            "sun_icon": "https://images.unsplash.com/photo-1763393373248-01bade723fa1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTJ8MHwxfHNlYXJjaHwxfHxzdW1tZXIlMjBiZWFjaCUyMGZ1biUyMGJyaWdodCUyMGNvbG9yc3xlbnwwfHx8fDE3NzA5Nzc1NDB8MA&ixlib=rb-4.1.0&q=85"
+        },
+        "icons": "Use 'lucide-react' for UI icons (Sun, Wifi, Phone, Download, Check). Use thick stroke width (2px or 2.5px)."
+    },
+    "animations": {
+        "hover": "transition-transform duration-200 ease-out hover:-translate-y-1",
+        "entrance": "animate-in fade-in slide-in-from-bottom-4 duration-700",
+        "micro": "active:scale-95"
+    },
+    "instructions_to_main_agent": [
+        "Install 'html-to-image' or 'html2canvas' for the download functionality.",
+        "Create a 'PricingTicket' component that looks like a physical event ticket or coupon.",
+        "The Hero section must be EXPLOSIVE. Use the 'hero_bg' with a yellow overlay (mix-blend-mode: multiply or hard-light) to make it brand-compliant.",
+        "For the Generator: Create a live preview. When user changes text inputs, the Preview component updates instantly.",
+        "Use 'react-hook-form' and 'zod' for the contact form.",
+        "Use 'sonner' for success messages after download or form submission.",
+        "Ensure the A5 preview maintains the correct aspect ratio (148:210).",
+        "Instagram Post preview must be 1:1 aspect ratio.",
+        "Add a 'Download' button that converts the DOM node of the preview to a PNG/JPG."
+    ],
+    "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+        "Do not use gradients for text. Keep it legible and bold.",
+        "Use high contrast colors. Black text on Yellow background is high readability.",
+        "Buttons should feel 'clickable' - use the shadow offset technique defined in visual_enhancers.",
+        "Spacing is key. Don't clutter the pricing tables. Use generous padding inside the cards.",
+        "Navigation should be sticky and high contrast (Black bg, White text or Yellow bg, Black text)."
+    ]
+}
